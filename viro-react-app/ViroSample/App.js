@@ -25,12 +25,17 @@ import {
 /*
  TODO: Insert your API key below
  */
-const Clarifai = require('clarifai');
+// If we want clarifai, this is the code for it.
+// the api key is on an account I created
+// const Clarifai = require('clarifai');
+//
+// const app = new Clarifai.App({
+//   apiKey: 'b686a5a3649e4c6bb1983324c7fff320'
+// });
+// process.nextTick = setImmediate;
 
-const app = new Clarifai.App({
-  apiKey: 'b686a5a3649e4c6bb1983324c7fff320'
-});
-process.nextTick = setImmediate;
+//  google vision api-key: AIzaSyA0jyYM3lLnvM69Es7ifHZj340-JfG_VWQ
+
 
 // Sets the default scene you want for AR and VR
 var InitialARScene = require('./js/HelloWorldSceneAR');
