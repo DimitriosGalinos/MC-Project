@@ -78,12 +78,14 @@ export default class ViroSample extends Component {
           <Text style={styles.titleText}>
             Learning languages made fun.
           </Text>
-
-            <TouchableHighlight style={styles.button}
-              onPress={this._getExperienceButtonOnPress(AR_NAVIGATOR_TYPE2)}
-              underlayColor={'#68a0ff'} >
-              <Text style={styles.buttonText}>START LEARNING</Text>
-            </TouchableHighlight>
+          <Text style={styles.subtitleText}>
+            There was never a better time to learn languages.
+          </Text>
+          <TouchableHighlight style={styles.button}
+            onPress={this._getExperienceButtonOnPress(AR_NAVIGATOR_TYPE2)}
+            underlayColor={'#353535'} >
+            <Text style={styles.buttonText}>START LEARNING</Text>
+          </TouchableHighlight>
         </View>
       </View>
     );
@@ -145,13 +147,20 @@ var styles = StyleSheet.create({
     paddingTop: 30,
     paddingBottom: 20,
     color:'#000',
-    textAlign:'center',
-    fontSize : 25,
+    textAlign:'left',
+    fontSize : 30,
     fontFamily: 'Iowan Old Style'
+  },
+  subtitleText: {
+    paddingTop: 30,
+    paddingBottom: 20,
+    color:'#7c7c7c',
+    textAlign:'left',
+    fontSize : 18,
   },
   buttonText: {
     color:'#fff',
-    textAlign:'center',
+    textAlign:'left',
     fontSize: 12,
     fontWeight: 'bold',
     letterSpacing: 2.5
