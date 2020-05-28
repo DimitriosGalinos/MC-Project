@@ -15,6 +15,7 @@ import {
   StyleSheet,
   PixelRatio,
   TouchableHighlight,
+  Image
 } from 'react-native';
 
 import {
@@ -50,7 +51,7 @@ export default class ViroSample extends Component {
     }
     this._getExperienceSelector = this._getExperienceSelector.bind(this);
     this._getARNavigator = this._getARNavigator.bind(this);
-	this._getARNavigator2 = this._getARNavigator2.bind(this);
+	  this._getARNavigator2 = this._getARNavigator2.bind(this);
     this._getExperienceButtonOnPress = this._getExperienceButtonOnPress.bind(this);
     this._exitViro = this._exitViro.bind(this);
   }
@@ -70,26 +71,19 @@ export default class ViroSample extends Component {
   // Presents the user with a choice of an AR or VR experience
   _getExperienceSelector() {
     return (
-      <View style={localStyles.outer} >
-        <View style={localStyles.inner} >
-
-          <Text style={localStyles.titleText}>
-            ARE YOU READY FOR THIS?
+      <View style={styles.container} >
+        <View style={styles.innerContainer}>
+          <Image source={require('./img/image.png')}
+            style={styles.mainImage} />
+          <Text style={styles.titleText}>
+            Learning languages made fun.
           </Text>
 
-          <TouchableHighlight style={localStyles.buttons}
-            onPress={this._getExperienceButtonOnPress(AR_NAVIGATOR_TYPE)}
-            underlayColor={'#68a0ff'} >
-
-            <Text style={localStyles.buttonText}>LETS LEARN</Text>
-          </TouchableHighlight>
-		  
-		  <TouchableHighlight style={localStyles.buttons}
-            onPress={this._getExperienceButtonOnPress(AR_NAVIGATOR_TYPE2)}
-            underlayColor={'#68a0ff'} >
-
-            <Text style={localStyles.buttonText}>LETS ANIMATE</Text>
-          </TouchableHighlight>
+            <TouchableHighlight style={styles.button}
+              onPress={this._getExperienceButtonOnPress(AR_NAVIGATOR_TYPE2)}
+              underlayColor={'#68a0ff'} >
+              <Text style={styles.buttonText}>START LEARNING</Text>
+            </TouchableHighlight>
         </View>
       </View>
     );
@@ -129,48 +123,63 @@ export default class ViroSample extends Component {
   }
 }
 
-var localStyles = StyleSheet.create({
-  viroContainer :{
+var styles = StyleSheet.create({
+  viroContainer:{
     flex : 1,
-    backgroundColor: "black",
+    backgroundColor: "white",
   },
-  outer : {
+  container: {
     flex : 1,
     flexDirection: 'row',
-    alignItems:'center',
-    backgroundColor: "black",
+    justifyContent: 'center',
+    backgroundColor: '#FFF',
   },
-  inner: {
+  innerContainer: {
     flex : 1,
     flexDirection: 'column',
     alignItems:'center',
-    backgroundColor: "black",
+    backgroundColor: "white",
+    flex: 0.8
   },
   titleText: {
     paddingTop: 30,
     paddingBottom: 20,
-    color:'#fff',
+    color:'#000',
     textAlign:'center',
-    fontSize : 25
+    fontSize : 25,
+    fontFamily: 'Iowan Old Style'
   },
   buttonText: {
     color:'#fff',
     textAlign:'center',
-    fontSize : 20
+    fontSize: 12,
+    fontWeight: 'bold',
+    letterSpacing: 2.5
   },
   buttons : {
     height: 80,
     width: 150,
-    paddingTop:20,
+    paddingTop: 20,
     paddingBottom:20,
     marginTop: 10,
     marginBottom: 10,
     backgroundColor:'#68a0cf',
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: '#fff'
   },
-  exitButton : {
+  button: {
+    padding: 20,
+    borderRadius: 20,
+    backgroundColor:'#000',
+    height: 55,
+    marginTop: 15,
+    marginBottom: 50,
+    position: 'absolute',
+    bottom:0,
+    width: "100%"
+  },
+  exitButton: {
     height: 50,
     width: 100,
     paddingTop:10,
@@ -180,7 +189,11 @@ var localStyles = StyleSheet.create({
     backgroundColor:'#68a0cf',
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: '#000',
+  },
+  mainImage: {
+    width: 350, 
+    height: 400
   }
 });
 
