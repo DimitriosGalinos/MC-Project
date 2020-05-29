@@ -71,15 +71,19 @@ export default class ViroSample extends Component {
   // Presents the user with a choice of an AR or VR experience
   _getExperienceSelector() {
     return (
-      <View style={styles.container} >
+      <View style={styles.container}>
         <View style={styles.innerContainer}>
+          <View style={styles.header}>
+            <Image source={require('./img/logo.png')}
+              style={styles.logoImage} />
+          </View>
           <Image source={require('./img/image.png')}
             style={styles.mainImage} />
           <Text style={styles.titleText}>
-            Learning languages made fun.
+            Learning languages made fun!
           </Text>
           <Text style={styles.subtitleText}>
-            There was never a better time to learn languages.
+            There was never a better time to learn a new language
           </Text>
           <TouchableHighlight style={styles.button}
             onPress={this._getExperienceButtonOnPress(AR_NAVIGATOR_TYPE2)}
@@ -137,30 +141,31 @@ var styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   innerContainer: {
-    flex : 1,
     flexDirection: 'column',
-    alignItems:'center',
+    alignItems: 'flex-start',
     backgroundColor: "white",
     flex: 0.8
   },
   titleText: {
     paddingTop: 30,
-    paddingBottom: 20,
+    paddingBottom: 5,
     color:'#000',
     textAlign:'left',
     fontSize : 30,
+    fontWeight: 'bold',
     fontFamily: 'Iowan Old Style'
   },
   subtitleText: {
-    paddingTop: 30,
-    paddingBottom: 20,
+    paddingTop: 10,
+    paddingBottom: 0,
     color:'#7c7c7c',
     textAlign:'left',
-    fontSize : 18,
+    fontSize : 16,
+    lineHeight: 20
   },
   buttonText: {
     color:'#fff',
-    textAlign:'left',
+    textAlign:'center',
     fontSize: 12,
     fontWeight: 'bold',
     letterSpacing: 2.5
@@ -203,6 +208,20 @@ var styles = StyleSheet.create({
   mainImage: {
     width: 350, 
     height: 400
+  },
+  logoImage: {
+    width: 60,
+    height: 15, 
+  },
+  header: {
+    borderBottomColor: '#e3e3e3',
+    borderBottomWidth: 1,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    marginTop: 40,
+    paddingBottom: 20,
+    marginLeft: -7,
+    width: "100%"
   }
 });
 
