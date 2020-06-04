@@ -23,50 +23,6 @@ function loadCharacterSelectImagesForLanguage(language) {
   }
 }
 
-function getCharacterDatasourceForLanguage(language) {
-  if (language === 'japanese') {
-    return [
-      {
-        title: 'A',
-        id: 'a'
-      },
-      {
-        title: 'Ko',
-        id: 'ko'
-      },
-      {
-        title: 'L',
-        id: 'l'
-      },
-      {
-        title: 'Ma',
-        id: 'ma'
-      }
-    ];
-  }
-
-  if (language === 'korean') {
-    return [
-      {
-        title: 'A',
-        id: 'a'
-      },
-      {
-        title: 'O',
-        id: 'o'
-      },
-      {
-        title: 'Yo',
-        id: 'yo'
-      },
-      {
-        title: 'Yu',
-        id: 'yu'
-      }
-    ];
-  }
-}
-
 function loadKoreanCharacterSelectImages() {
   return {
     a: require('../../img/characters/korean/a.jpg'),
@@ -153,6 +109,5 @@ function loadJapaneseCharacterTrackingImages() {
 
 imageLoader.loadCharacterTrackingImagesForLanguage = loadCharacterTrackingImagesForLanguage;
 imageLoader.loadCharacterSelectImagesForLanguage = loadCharacterSelectImagesForLanguage;
-imageLoader.getCharacterDatasourceForLanguage = getCharacterDatasourceForLanguage;
 
 export default imageLoader

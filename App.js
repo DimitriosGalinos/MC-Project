@@ -28,25 +28,6 @@ import {
 
 import imageLoader from './js/services/imageLoader';
 
-const CHARACTERDATA = [
-  {
-    title: 'A',
-    id: 'a'
-  },
-  {
-    title: 'Ko',
-    id: 'ko'
-  },
-  {
-    title: 'L',
-    id: 'l'
-  },
-  {
-    title: 'Ma',
-    id: 'ma'
-  }
-];
-
 /*
  TODO: Insert your API key below
  */
