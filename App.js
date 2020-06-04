@@ -15,6 +15,7 @@ import {
   StyleSheet,
   PixelRatio,
   TouchableHighlight,
+  TouchableOpacity,
   Image
 } from 'react-native';
 
@@ -31,15 +32,17 @@ var sharedProps = {
 
 // Sets the default scene you want for AR and VR
 var InitialARScene = require('./js/HelloWorldSceneAR');
-var InitialARScene2 = require('./js/HelloWorldSceneAR2');
 
-var UNSET = "UNSET";
-var AR_NAVIGATOR_TYPE = "AR";
-var AR_NAVIGATOR_TYPE2 = "AR2";
+const navigator = {
+  home: 0,
+  language_selector: 1,
+  character_selector: 2,
+  ar: 3
+}
 
 // This determines which type of experience to launch in, or UNSET, if the user should
 // be presented with a choice of AR or VR. By default, we offer the user a choice.
-var defaultNavigatorType = UNSET;
+var defaultNavigatorType = navigator.home;
 
 export default class ViroSample extends Component {
   constructor() {
@@ -51,7 +54,6 @@ export default class ViroSample extends Component {
     }
     this._getExperienceSelector = this._getExperienceSelector.bind(this);
     this._getARNavigator = this._getARNavigator.bind(this);
-	  this._getARNavigator2 = this._getARNavigator2.bind(this);
     this._getExperienceButtonOnPress = this._getExperienceButtonOnPress.bind(this);
     this._exitViro = this._exitViro.bind(this);
   }
@@ -59,12 +61,10 @@ export default class ViroSample extends Component {
   // Replace this function with the contents of _getVRNavigator() or _getARNavigator()
   // if you are building a specific type of experience.
   render() {
-    if (this.state.navigatorType == UNSET) {
+    if (this.state.navigatorType == navigator.home) {
       return this._getExperienceSelector();
-    } else if (this.state.navigatorType == AR_NAVIGATOR_TYPE) {
+    } else if (this.state.navigatorType == navigator.ar) {
       return this._getARNavigator();
-    } else if (this.state.navigatorType == AR_NAVIGATOR_TYPE2) {
-      return this._getARNavigator2();
     }
   }
 
@@ -86,7 +86,7 @@ export default class ViroSample extends Component {
             There was never a better time to learn a new language
           </Text>
           <TouchableHighlight style={styles.button}
-            onPress={this._getExperienceButtonOnPress(AR_NAVIGATOR_TYPE2)}
+            onPress={this._getExperienceButtonOnPress(navigator.ar)}
             underlayColor={'#353535'} >
             <Text style={styles.buttonText}>START LEARNING</Text>
           </TouchableHighlight>
@@ -98,16 +98,12 @@ export default class ViroSample extends Component {
   // Returns the ViroARSceneNavigator which will start the AR experience
   _getARNavigator() {
     return (
-      <ViroARSceneNavigator {...this.state.sharedProps}
-        initialScene={{scene: InitialARScene}} />
-    );
-  }
- 
-   // Returns the ViroARSceneNavigator which will start the AR experience
-  _getARNavigator2() {
-    return (
-      <ViroARSceneNavigator {...this.state.sharedProps}
-        initialScene={{scene: InitialARScene2}} />
+      <View style={styles.viroContainer}>
+        <ViroARSceneNavigator {...this.state.sharedProps} initialScene={{scene: InitialARScene,
+            passProps: {language: 'japanese', character: 'a'}}}
+          numberOfTrackedImages={5} autofocus={true} ref={ref => (this._ARSceneNav = ref)}/>
+        <TouchableOpacity onPress={() => this._exitViro()} style={styles.menuButton}><Text>Menu</Text></TouchableOpacity>
+      </View>
     );
   }
 
@@ -124,7 +120,7 @@ export default class ViroSample extends Component {
   // This function "exits" Viro by setting the navigatorType to UNSET.
   _exitViro() {
     this.setState({
-      navigatorType : UNSET
+      navigatorType : navigator.home
     })
   }
 }
@@ -132,7 +128,23 @@ export default class ViroSample extends Component {
 var styles = StyleSheet.create({
   viroContainer:{
     flex : 1,
-    backgroundColor: "white",
+    backgroundColor: 'rgba(52, 52, 52, 0.0)'
+  },
+  menuButton: {
+    position: 'absolute',
+    width: 50,
+    height: 35,
+    borderRadius: 20,
+    top: 40,
+    left: 10,
+    backgroundColor: 'white',
+    color: 'black',
+    fontWeight: 'bold',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 1,
+    fontSize: 12
   },
   container: {
     flex : 1,
@@ -206,12 +218,12 @@ var styles = StyleSheet.create({
     borderColor: '#000',
   },
   mainImage: {
-    width: 350, 
+    width: 350,
     height: 400
   },
   logoImage: {
     width: 60,
-    height: 15, 
+    height: 15,
   },
   header: {
     borderBottomColor: '#e3e3e3',
