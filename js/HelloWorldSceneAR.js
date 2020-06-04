@@ -50,10 +50,10 @@ export default class HelloWorldSceneAR extends Component {
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized} >
-	  
+
 			<ViroAmbientLight color="#FFFFFF" />
 			<ViroSpotLight innerAngle={5} outerAngle={90} direction={[0,-1,-.2]} position={[0, 3, 1]} color="#ffffff" castsShadow={true} />
-	
+
 			<ViroNode position={[0,0,-1]} dragType="FixedToWorld" onDrag={()=>{}} >
 				<Viro3DObject
 					source={require("./res/emojis_n_shit/jap.obj")}
@@ -64,10 +64,12 @@ export default class HelloWorldSceneAR extends Component {
 					rotation={[0, -45, -90]}
 					onLoadStart={this._onLoadStart}
 					onLoadEnd={this._onLoadEnd}
-					onError={this._onError} 
+					onError={this._onError}
 				/>
 			</ViroNode>
-			
+
+      {this._getImageMarkers()}
+
 	  </ViroARScene>
     );
   }
