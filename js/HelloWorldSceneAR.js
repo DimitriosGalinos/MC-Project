@@ -56,8 +56,8 @@ export default class HelloWorldSceneAR extends Component {
 
 			<ViroNode position={[0,0,-1]} dragType="FixedToWorld" onDrag={()=>{}} >
 				<Viro3DObject
-					source={require("./res/emojis_n_shit/jap.obj")}
-					resources={[require("./res/emojis_n_shit/98809510.obj.mtl")]}
+					source={require("./res/emojis_n_shit/a_0/92980804.obj")}
+					resources={[require("./res/emojis_n_shit/a_0/92980804.obj.mtl")]}
 					type="OBJ"
 					position={[0.0, 0.0, -10]}
 					scale={[0.05, 0.05, 0.05]}
