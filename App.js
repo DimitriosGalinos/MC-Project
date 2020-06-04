@@ -90,6 +90,7 @@ export default class ViroSample extends Component {
     this._getCharacterItem = this._getCharacterItem.bind(this);
     this._getSelector = this._getSelector.bind(this);
     this._getDeselectButton = this._getDeselectButton.bind(this);
+    this._getErrorText = this._getErrorText.bind(this);
   }
 
   // Replace this function with the contents of _getVRNavigator() or _getARNavigator()
@@ -112,13 +113,16 @@ export default class ViroSample extends Component {
               style={styles.logoImage} />
           </View>
           {this._getDeselectButton()}
-          {this._getSelector()}
+          <View style={{height:430, width: "100%"}}>
+            {this._getSelector()}
+          </View>
           <Text style={styles.titleText}>
             Learning languages made fun!
           </Text>
           <Text style={styles.subtitleText}>
             There was never a better time to learn a new language
           </Text>
+          {this._getErrorText()}
           <TouchableHighlight style={styles.button}
             onPress={this._getExperienceButtonOnPress(navigator.ar)}
             underlayColor={'#353535'} >
@@ -142,41 +146,38 @@ export default class ViroSample extends Component {
   _getSelector() {
     if (!this.state.language) {
       return (
-        <View style={{height:450, width: "100%"}}>
-          <ScrollView horizontal={true}>
-            <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
-              <TouchableOpacity onPress={() => this._setLanguage('japanese')}>
-                <Image source={require('./img/flags/japan.png')}
-                  style={styles.mainImage} />
-                <Text style={{width: "100%", textAlign:'center', fontSize:20, fontWeight: 'bold'}}>Japanese</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
-              <TouchableOpacity onPress={() => this._setLanguage('japanese')}>
-                <Image source={require('./img/flags/south-korea.png')}
-                  style={styles.mainImage} />
-                <Text style={{width: "100%", textAlign:'center', fontSize:20, fontWeight: 'bold'}}>Korean</Text>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-        </View>
+        <ScrollView horizontal={true}>
+          <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
+            <TouchableOpacity onPress={() => this._setLanguage('japanese')}>
+              <Image source={require('./img/flags/japan.png')}
+                style={styles.mainImage} />
+              <Text style={{width: "100%", textAlign:'center', fontSize:20, fontWeight: 'bold'}}>Japanese</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
+            <TouchableOpacity onPress={() => this._setLanguage('japanese')}>
+              <Image source={require('./img/flags/south-korea.png')}
+                style={styles.mainImage} />
+              <Text style={{width: "100%", textAlign:'center', fontSize:20, fontWeight: 'bold'}}>Korean</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       );
     }
 
     return (
-      <View style={{height:450, width: "100%"}}>
-        <FlatList
-          data={CHARACTERS}
-          renderItem={({ item }) => this._getCharacterItem(item)}
-          numColumns={4}
-          keyExtractor={item => item.id}
-        />
-      </View>
+      <FlatList
+        style={{margin: 0}}
+        data={CHARACTERS}
+        renderItem={({ item }) => this._getCharacterItem(item)}
+        numColumns={4}
+        keyExtractor={item => item.id}
+      />
     );
   }
 
   _getCharacterItem(item) {
-    if (item.id == this.state.character) {
+    if (item.id == this.state.character || item.title == this.state.character) {
       return (
         <TouchableOpacity style={styles.highlightedCharacterButton} onPress={() => this._setCharacter(item.id)}>
           <Text>{item.title}</Text>
@@ -201,6 +202,15 @@ export default class ViroSample extends Component {
     this.setState({
       character: character
     });
+  }
+
+  _getErrorText() {
+    if (!this.state.error)
+      return;
+
+    return (
+      <Text style={{color:'red', fontSize: 12, fontWeight: 'bold', width:"100%"}}>{this.state.error}</Text>
+    );
   }
 
   // Returns the ViroARSceneNavigator which will start the AR experience
