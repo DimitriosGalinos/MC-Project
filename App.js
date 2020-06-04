@@ -127,7 +127,7 @@ export default class ViroSample extends Component {
   _getSelector() {
     if (!this.state.language) {
       return (
-        <ScrollView horizontal={true}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
           <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
             <TouchableOpacity onPress={() => this._setLanguage('japanese')}>
               <Image source={require('./img/flags/japan.png')}
@@ -317,8 +317,11 @@ var styles = StyleSheet.create({
     width: "100%"
   },
   languageImage: {
-    width: 350,
-    height: 400
+    width: 260,
+    height: 350,
+    borderRadius: 30,
+    backgroundColor: "#e5e1e2",
+    marginRight: 20
   },
   logoImage: {
     width: 60,
@@ -360,7 +363,8 @@ var styles = StyleSheet.create({
     color:'#7c7c7c',
     fontSize : 12,
     fontWeight: 'bold',
-    letterSpacing: 2.5
+    letterSpacing: 2.5,
+    marginTop: -30
   }
 });
 
