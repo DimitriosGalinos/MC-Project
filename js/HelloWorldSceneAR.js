@@ -52,21 +52,24 @@ export default class HelloWorldSceneAR extends Component {
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized} >
-
-    		<ViroARPlaneSelector />
-
-        <ViroText text={this.state.text} scale={[.5, .5, .5]} position={[0, 0, -1]} style={styles.helloWorldTextStyle} />
-
-    		<ViroNode position={[0,0,-1]} dragType="FixedToWorld" onDrag={()=>{}} >
-    			<ViroImage
-    				height={0.2}
-    				width={0.2}
-    				source={require('./res/emojis_n_shit/icon_close.png')}
-    			 />
-    		</ViroNode>
-
-        {this._getImageMarkers()}
-
+	  
+			<ViroAmbientLight color="#FFFFFF" />
+			<ViroSpotLight innerAngle={5} outerAngle={90} direction={[0,-1,-.2]} position={[0, 3, 1]} color="#ffffff" castsShadow={true} />
+	
+			<ViroNode position={[0,0,-1]} dragType="FixedToWorld" onDrag={()=>{}} >
+				<Viro3DObject
+					source={require("./res/emojis_n_shit/jap.obj")}
+					resources={[require("./res/emojis_n_shit/98809510.obj.mtl")]}
+					type="OBJ"
+					position={[0.0, 0.0, -10]}
+					scale={[0.05, 0.05, 0.05]}
+					rotation={[0, -45, -90]}
+					onLoadStart={this._onLoadStart}
+					onLoadEnd={this._onLoadEnd}
+					onError={this._onError} 
+				/>
+			</ViroNode>
+			
 	  </ViroARScene>
     );
   }
