@@ -20,7 +20,7 @@ import {
   ViroARTrackingTargets
 } from 'react-viro';
 
-const pathToLanguages = './res/languages';
+import imageLoader from './services/imageLoader';
 
 export default class HelloWorldSceneAR extends Component {
 
@@ -39,8 +39,6 @@ export default class HelloWorldSceneAR extends Component {
 	  this._getImageMarkers = this._getImageMarkers.bind(this);
     this._removeCharacterTagets = this._removeCharacterTagets.bind(this);
     this._registerCharacterTagets = this._registerCharacterTagets.bind(this);
-    // this._registerCharacterTagets('japanese', 'b');
-
   }
 
 // Viroplane visualizes planes and if you click them they disappear
@@ -92,34 +90,36 @@ export default class HelloWorldSceneAR extends Component {
   }
 
   _registerCharacterTagets(language, char) {
+    var allImages = imageLoader.loadCharacterTrackingImagesForLanguage(language);
+    var imagesForChar = allImages[char];
 
     ViroARTrackingTargets.createTargets({
       'c1' : {
-        source : require('./res/languages/japanese/a/a1.jpg'),
+        source : imagesForChar[char + '1'],
         orientation : "Up",
         physicalWidth : 0.015, // real world width in meters
         type: 'image'
       },
       'c2' : {
-        source : require('./res/languages/japanese/a/a2.jpg'),
+        source : imagesForChar[char + '2'],
         orientation : "Up",
         physicalWidth : 0.015, // real world width in meters
         type: 'image'
       },
       'c3' : {
-        source : require('./res/languages/japanese/a/a3.jpg'),
+        source : imagesForChar[char + '3'],
         orientation : "Up",
         physicalWidth : 0.015, // real world width in meters
         type: 'image'
       },
       'c4' : {
-        source : require('./res/languages/japanese/a/a4.jpg'),
+        source : imagesForChar[char + '4'],
         orientation : "Up",
         physicalWidth : 0.015, // real world width in meters
         type: 'image'
       },
       'c5' : {
-        source : require('./res/languages/japanese/a/a5.jpg'),
+        source : imagesForChar[char + '5'],
         orientation : "Up",
         physicalWidth : 0.015, // real world width in meters
         type: 'image'

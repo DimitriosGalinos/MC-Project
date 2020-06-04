@@ -61,6 +61,7 @@ export default class ViroSample extends Component {
       characterDataSource: null,
       error: null
     }
+
     this._getExperienceSelector = this._getExperienceSelector.bind(this);
     this._getARNavigator = this._getARNavigator.bind(this);
     this._getExperienceButtonOnPress = this._getExperienceButtonOnPress.bind(this);
