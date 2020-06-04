@@ -26,27 +26,26 @@ import {
   ViroARSceneNavigator
 } from 'react-viro';
 
+import imageLoader from './js/services/imageLoader';
 
-const CHARACTERS = [
+const CHARACTERDATA = [
   {
-    id: 'a',
     title: 'A',
+    id: 'a'
   },
   {
-    id: 'b',
-    title: 'B',
+    title: 'Ko',
+    id: 'ko'
   },
   {
-    id: 'j',
-    title: 'J',
-  },
-  {
-    id: 'l',
     title: 'L',
+    id: 'l'
   },
+  {
+    title: 'Ma',
+    id: 'ma'
+  }
 ];
-
-
 
 /*
  TODO: Insert your API key below
@@ -78,7 +77,7 @@ export default class ViroSample extends Component {
       sharedProps : sharedProps,
       language: null,
       character: null,
-      characterDataSource: {},
+      characterDataSource: null,
       error: null
     }
     this._getExperienceSelector = this._getExperienceSelector.bind(this);
@@ -123,7 +122,7 @@ export default class ViroSample extends Component {
             There was never a better time to learn a new language
           </Text>
           {this._getErrorText()}
-          <TouchableHighlight style={styles.button}
+          <TouchableHighlight style={styles.learnButton}
             onPress={this._getExperienceButtonOnPress(navigator.ar)}
             underlayColor={'#353535'} >
             <Text style={styles.buttonText}>START LEARNING</Text>
@@ -150,14 +149,14 @@ export default class ViroSample extends Component {
           <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
             <TouchableOpacity onPress={() => this._setLanguage('japanese')}>
               <Image source={require('./img/flags/japan.png')}
-                style={styles.mainImage} />
+                style={styles.languageImage} />
               <Text style={{width: "100%", textAlign:'center', fontSize:20, fontWeight: 'bold'}}>Japanese</Text>
             </TouchableOpacity>
           </View>
           <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
-            <TouchableOpacity onPress={() => this._setLanguage('japanese')}>
+            <TouchableOpacity onPress={() => this._setLanguage('korean')}>
               <Image source={require('./img/flags/south-korea.png')}
-                style={styles.mainImage} />
+                style={styles.languageImage} />
               <Text style={{width: "100%", textAlign:'center', fontSize:20, fontWeight: 'bold'}}>Korean</Text>
             </TouchableOpacity>
           </View>
@@ -167,8 +166,8 @@ export default class ViroSample extends Component {
 
     return (
       <FlatList
-        style={{margin: 0}}
-        data={CHARACTERS}
+        style={{margin:0}}
+        data={this.state.characterDataSource}
         renderItem={({ item }) => this._getCharacterItem(item)}
         numColumns={4}
         keyExtractor={item => item.id}
@@ -177,24 +176,31 @@ export default class ViroSample extends Component {
   }
 
   _getCharacterItem(item) {
-    if (item.id == this.state.character || item.title == this.state.character) {
+    if (item.id == this.state.character) {
       return (
         <TouchableOpacity style={styles.highlightedCharacterButton} onPress={() => this._setCharacter(item.id)}>
-          <Text>{item.title}</Text>
+          <Image source={item.source} style={{maxWidth: "100%", maxHeight: "100%"}}/>
         </TouchableOpacity>
       );
     }
 
     return (
       <TouchableOpacity style={styles.characterButton} onPress={() => this._setCharacter(item.id)}>
-        <Text>{item.title}</Text>
+        <Image source={item.source} style={{maxWidth: "100%", maxHeight: "100%"}}/>
       </TouchableOpacity>
     );
   }
 
   _setLanguage(language) {
+    var selectImages = imageLoader.loadCharacterSelectImagesForLanguage(language);
+    var dataSource = [];
+    for (var key in selectImages) {
+      dataSource.push({source: selectImages[key], id: key});
+    }
+
     this.setState({
-      language: language
+      language: language,
+      characterDataSource: dataSource
     });
   }
 
@@ -308,19 +314,7 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     letterSpacing: 2.5
   },
-  buttons : {
-    height: 80,
-    width: 150,
-    paddingTop: 20,
-    paddingBottom:20,
-    marginTop: 10,
-    marginBottom: 10,
-    backgroundColor:'#68a0cf',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#fff'
-  },
-  button: {
+  learnButton: {
     padding: 20,
     borderRadius: 20,
     backgroundColor:'#000',
@@ -340,19 +334,7 @@ var styles = StyleSheet.create({
     marginBottom: 5,
     width: "100%"
   },
-  exitButton: {
-    height: 50,
-    width: 100,
-    paddingTop:10,
-    paddingBottom:10,
-    marginTop: 10,
-    marginBottom: 10,
-    backgroundColor:'#68a0cf',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#000',
-  },
-  mainImage: {
+  languageImage: {
     width: 350,
     height: 400
   },
@@ -375,14 +357,20 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     height: 75,
     margin: 1,
-    backgroundColor: 'rgba(52, 52, 52, 0.2)'
+    backgroundColor: 'rgba(52, 52, 52, 0.2)',
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: 'rgba(52, 52, 52, 0.0)'
   },
   highlightedCharacterButton: {
     flex: 1,
     flexDirection: 'column',
     height: 75,
     margin: 1,
-    backgroundColor: 'rgba(255, 165, 0, 0.3)'
+    backgroundColor: 'rgba(52, 52, 52, 0.2)',
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: 'orange'
   }
 });
 
