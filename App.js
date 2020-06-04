@@ -16,12 +16,37 @@ import {
   PixelRatio,
   TouchableHighlight,
   TouchableOpacity,
-  Image
+  Image,
+  ScrollView,
+  FlatList,
+  SafeAreaView
 } from 'react-native';
 
 import {
   ViroARSceneNavigator
 } from 'react-viro';
+
+
+const CHARACTERS = [
+  {
+    id: 'a',
+    title: 'A',
+  },
+  {
+    id: 'b',
+    title: 'B',
+  },
+  {
+    id: 'j',
+    title: 'J',
+  },
+  {
+    id: 'l',
+    title: 'L',
+  },
+];
+
+
 
 /*
  TODO: Insert your API key below
@@ -50,12 +75,21 @@ export default class ViroSample extends Component {
 
     this.state = {
       navigatorType : defaultNavigatorType,
-      sharedProps : sharedProps
+      sharedProps : sharedProps,
+      language: null,
+      character: null,
+      characterDataSource: {},
+      error: null
     }
     this._getExperienceSelector = this._getExperienceSelector.bind(this);
     this._getARNavigator = this._getARNavigator.bind(this);
     this._getExperienceButtonOnPress = this._getExperienceButtonOnPress.bind(this);
     this._exitViro = this._exitViro.bind(this);
+    this._setLanguage = this._setLanguage.bind(this);
+    this._setCharacter = this._setCharacter.bind(this);
+    this._getCharacterItem = this._getCharacterItem.bind(this);
+    this._getSelector = this._getSelector.bind(this);
+    this._getDeselectButton = this._getDeselectButton.bind(this);
   }
 
   // Replace this function with the contents of _getVRNavigator() or _getARNavigator()
@@ -77,8 +111,8 @@ export default class ViroSample extends Component {
             <Image source={require('./img/logo.png')}
               style={styles.logoImage} />
           </View>
-          <Image source={require('./img/image.png')}
-            style={styles.mainImage} />
+          {this._getDeselectButton()}
+          {this._getSelector()}
           <Text style={styles.titleText}>
             Learning languages made fun!
           </Text>
@@ -95,12 +129,86 @@ export default class ViroSample extends Component {
     );
   }
 
+  _getDeselectButton() {
+    if (this.state.language) {
+      return (
+        <TouchableHighlight style={styles.backButton} onPress={() => this.setState({language: null, character: null})}>
+          <Text style={styles.buttonText}>Choose another language</Text>
+        </TouchableHighlight>
+      )
+    }
+  }
+
+  _getSelector() {
+    if (!this.state.language) {
+      return (
+        <View style={{height:450, width: "100%"}}>
+          <ScrollView horizontal={true}>
+            <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
+              <TouchableOpacity onPress={() => this._setLanguage('japanese')}>
+                <Image source={require('./img/flags/japan.png')}
+                  style={styles.mainImage} />
+                <Text style={{width: "100%", textAlign:'center', fontSize:20, fontWeight: 'bold'}}>Japanese</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
+              <TouchableOpacity onPress={() => this._setLanguage('japanese')}>
+                <Image source={require('./img/flags/south-korea.png')}
+                  style={styles.mainImage} />
+                <Text style={{width: "100%", textAlign:'center', fontSize:20, fontWeight: 'bold'}}>Korean</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </View>
+      );
+    }
+
+    return (
+      <View style={{height:450, width: "100%"}}>
+        <FlatList
+          data={CHARACTERS}
+          renderItem={({ item }) => this._getCharacterItem(item)}
+          numColumns={4}
+          keyExtractor={item => item.id}
+        />
+      </View>
+    );
+  }
+
+  _getCharacterItem(item) {
+    if (item.id == this.state.character) {
+      return (
+        <TouchableOpacity style={styles.highlightedCharacterButton} onPress={() => this._setCharacter(item.id)}>
+          <Text>{item.title}</Text>
+        </TouchableOpacity>
+      );
+    }
+
+    return (
+      <TouchableOpacity style={styles.characterButton} onPress={() => this._setCharacter(item.id)}>
+        <Text>{item.title}</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  _setLanguage(language) {
+    this.setState({
+      language: language
+    });
+  }
+
+  _setCharacter(character) {
+    this.setState({
+      character: character
+    });
+  }
+
   // Returns the ViroARSceneNavigator which will start the AR experience
   _getARNavigator() {
     return (
       <View style={styles.viroContainer}>
         <ViroARSceneNavigator {...this.state.sharedProps} initialScene={{scene: InitialARScene,
-            passProps: {language: 'japanese', character: 'a'}}}
+            passProps: {language: this.state.language, character: this.state.character}}}
           numberOfTrackedImages={5} autofocus={true} ref={ref => (this._ARSceneNav = ref)}/>
         <TouchableOpacity onPress={() => this._exitViro()} style={styles.menuButton}><Text>Menu</Text></TouchableOpacity>
       </View>
@@ -110,6 +218,14 @@ export default class ViroSample extends Component {
   // This function returns an anonymous/lambda function to be used
   // by the experience selector buttons
   _getExperienceButtonOnPress(navigatorType) {
+    if (!this.state.language || !this.state.character) {
+      return () => {
+        this.setState({
+          error : 'You must choose a language and a character'
+        })
+      }
+    }
+
     return () => {
       this.setState({
         navigatorType : navigatorType
@@ -205,6 +321,15 @@ var styles = StyleSheet.create({
     bottom:0,
     width: "100%"
   },
+  backButton: {
+    padding: 20,
+    borderRadius: 20,
+    backgroundColor:'#000',
+    height: 55,
+    marginTop: 15,
+    marginBottom: 5,
+    width: "100%"
+  },
   exitButton: {
     height: 50,
     width: 100,
@@ -234,6 +359,20 @@ var styles = StyleSheet.create({
     paddingBottom: 20,
     marginLeft: -7,
     width: "100%"
+  },
+  characterButton: {
+    flex: 1,
+    flexDirection: 'column',
+    height: 75,
+    margin: 1,
+    backgroundColor: 'rgba(52, 52, 52, 0.2)'
+  },
+  highlightedCharacterButton: {
+    flex: 1,
+    flexDirection: 'column',
+    height: 75,
+    margin: 1,
+    backgroundColor: 'rgba(255, 165, 0, 0.3)'
   }
 });
 
