@@ -127,19 +127,19 @@ export default class ViroSample extends Component {
   _getSelector() {
     if (!this.state.language) {
       return (
-        <ScrollView horizontal={true}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
           <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
             <TouchableOpacity onPress={() => this._setLanguage('japanese')}>
               <Image source={require('./img/flags/japan.png')}
                 style={styles.languageImage} />
-              <Text style={{width: "100%", textAlign:'center', fontSize:20, fontWeight: 'bold'}}>Japanese</Text>
+              <Text style={styles.languageName}>JAPANESE</Text>
             </TouchableOpacity>
           </View>
           <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
             <TouchableOpacity onPress={() => this._setLanguage('korean')}>
               <Image source={require('./img/flags/south-korea.png')}
                 style={styles.languageImage} />
-              <Text style={{width: "100%", textAlign:'center', fontSize:20, fontWeight: 'bold'}}>Korean</Text>
+              <Text style={styles.languageName}>KOREAN</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -318,12 +318,15 @@ var styles = StyleSheet.create({
     width: "100%"
   },
   languageImage: {
-    width: 350,
-    height: 400
+    width: 260,
+    height: 350,
+    borderRadius: 30,
+    backgroundColor: "#e5e1e2",
+    marginRight: 20
   },
   logoImage: {
     width: 60,
-    height: 15,
+    height: 15
   },
   header: {
     borderBottomColor: '#e3e3e3',
@@ -354,6 +357,15 @@ var styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 5,
     borderColor: 'orange'
+  },
+  languageName: {
+    width: "100%",
+    textAlign:'center',
+    color:'#7c7c7c',
+    fontSize : 12,
+    fontWeight: 'bold',
+    letterSpacing: 2.5,
+    marginTop: -30
   }
 });
 
