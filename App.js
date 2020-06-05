@@ -59,7 +59,7 @@ export default class ViroSample extends Component {
       language: null,
       character: null,
       characterDataSource: null,
-      error: null
+      error: null,
     }
 
     this._getExperienceSelector = this._getExperienceSelector.bind(this);
@@ -206,9 +206,10 @@ export default class ViroSample extends Component {
     return (
       <View style={styles.viroContainer}>
         <ViroARSceneNavigator {...this.state.sharedProps} initialScene={{scene: InitialARScene,
-            passProps: {language: this.state.language, character: this.state.character}}}
-          numberOfTrackedImages={5} autofocus={true} ref={ref => (this._ARSceneNav = ref)}/>
+              passProps: {language: this.state.language, character: this.state.character, nextButtonPresses: this.state.nextButtonPresses}}}
+              numberOfTrackedImages={5} autofocus={true}/>
         <TouchableOpacity onPress={() => this._exitViro()} style={styles.menuButton}><Text>Menu</Text></TouchableOpacity>
+        <Text style={{position:'absolute', width: 100, height: 100, bottom: 150, left: 10}}>{'' + this.state.nextButtonPresses}</Text>
       </View>
     );
   }

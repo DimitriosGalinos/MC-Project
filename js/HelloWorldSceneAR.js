@@ -5,6 +5,8 @@ import {View, StyleSheet} from 'react-native';
 
 import {
   ViroARScene,
+  ViroARCamera,
+  ViroButton,
   ViroText,
   ViroConstants,
   ViroMaterials,
@@ -29,7 +31,7 @@ export default class HelloWorldSceneAR extends Component {
 
     // Set initial state here
     this.state = {
-      text : "Initializing AR...",
+      text : "Initializing AR..."
     };
 
     // bind 'this' to functions
@@ -39,6 +41,7 @@ export default class HelloWorldSceneAR extends Component {
 	  this._getImageMarkers = this._getImageMarkers.bind(this);
     this._removeCharacterTagets = this._removeCharacterTagets.bind(this);
     this._registerCharacterTagets = this._registerCharacterTagets.bind(this);
+    this._nextStroke = this._nextStroke.bind(this);
   }
 
 // Viroplane visualizes planes and if you click them they disappear
@@ -51,27 +54,32 @@ export default class HelloWorldSceneAR extends Component {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized} >
 
-			<ViroAmbientLight color="#FFFFFF" />
-			<ViroSpotLight innerAngle={5} outerAngle={90} direction={[0,-1,-.2]} position={[0, 3, 1]} color="#ffffff" castsShadow={true} />
+  			<ViroAmbientLight color="#FFFFFF" />
+  			<ViroSpotLight innerAngle={5} outerAngle={90} direction={[0,-1,-.2]} position={[0, 3, 1]} color="#ffffff" castsShadow={true} />
 
-			<ViroNode position={[0,0,-1]} dragType="FixedToWorld" onDrag={()=>{}} >
-				<Viro3DObject
-					source={require("./res/emojis_n_shit/jap.obj")}
-					resources={[require("./res/emojis_n_shit/98809510.obj.mtl")]}
-					type="OBJ"
-					position={[0.0, 0.0, -10]}
-					scale={[0.05, 0.05, 0.05]}
-					rotation={[0, -45, -90]}
-					onLoadStart={this._onLoadStart}
-					onLoadEnd={this._onLoadEnd}
-					onError={this._onError}
-				/>
-			</ViroNode>
+  			<ViroNode position={[0,0,-1]} dragType="FixedToWorld" onDrag={()=>{}} >
+  				<Viro3DObject
+  					source={require("./res/emojis_n_shit/jap.obj")}
+  					resources={[require("./res/emojis_n_shit/98809510.obj.mtl")]}
+  					type="OBJ"
+  					position={[0.0, 0.0, -10]}
+  					scale={[0.05, 0.05, 0.05]}
+  					rotation={[0, -45, -90]}
+            onClick={() => this._nextStroke()}
+  				/>
+  			</ViroNode>
 
-      {this._getImageMarkers()}
+        {this._getImageMarkers()}
 
-	  </ViroARScene>
+       </ViroARScene>
     );
+  }
+
+  _nextStroke() {
+    if (this.state.text == "next stroke")
+      this.setState({text: "next stroke again!"})
+    else
+      this.setState({text: "next stroke"})
   }
 
   _getImageMarkers() {
@@ -95,6 +103,7 @@ export default class HelloWorldSceneAR extends Component {
   }
 
   _registerCharacterTagets(language, char) {
+    this._removeCharacterTagets();
     var allImages = imageLoader.loadCharacterTrackingImagesForLanguage(language);
     var imagesForChar = allImages[char];
 
@@ -132,9 +141,9 @@ export default class HelloWorldSceneAR extends Component {
     });
   }
 
-  _removeCharacterTagets(char) {
+  _removeCharacterTagets() {
     for (var i = 1; i <= 5 ; i++) {
-      var targetName = char + i
+      var targetName = 'c' + i
       ViroARTrackingTargets.deleteTarget(targetName);
     }
   }
@@ -142,9 +151,7 @@ export default class HelloWorldSceneAR extends Component {
 // text class
   _onInitialized(state, reason) {
     if (state == ViroConstants.TRACKING_NORMAL) {
-      this.setState({
-        text : "I hate cheese"
-      });
+      // handle successfull initialization here
     } else if (state == ViroConstants.TRACKING_NONE) {
       // Handle loss of tracking
     }
