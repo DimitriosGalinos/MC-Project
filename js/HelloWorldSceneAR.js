@@ -19,7 +19,8 @@ import {
   ViroAnimations,
   ViroImage,
   ViroARImageMarker,
-  ViroARTrackingTargets
+  ViroARTrackingTargets,
+  ViroSound
 } from 'react-viro';
 
 import imageLoader from './services/imageLoader';
@@ -33,6 +34,8 @@ export default class HelloWorldSceneAR extends Component {
     // Set initial state here
     this.state = {
       text : "Initializing AR...",
+      recognitionSucceeded: undefined,
+      showsRecognitionResponse: false,
       currentStroke: 1
     };
 
@@ -45,6 +48,10 @@ export default class HelloWorldSceneAR extends Component {
     this._registerCharacterTagets = this._registerCharacterTagets.bind(this);
     this._nextStroke = this._nextStroke.bind(this);
     this._getCharacterModel = this._getCharacterModel.bind(this);
+    this._characerDetectionSuccess = this._characerDetectionSuccess.bind(this);
+    this._characerDetectionFailure = this._characerDetectionFailure.bind(this);
+    this._getRecognitionResponse = this._getRecognitionResponse.bind(this);
+    this._drawAgain = this._drawAgain.bind(this);
   }
 
 // Viroplane visualizes planes and if you click them they disappear
@@ -56,23 +63,63 @@ export default class HelloWorldSceneAR extends Component {
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized} >
-        <ViroText text={'' + this.state.currentStroke}
-            textAlign="left"
-            textAlignVertical="top"
-            textLineBreakMode="Justify"
-            textClipMode="ClipToBounds"
-            color="#ff0000"
-            width={2} height={2}
-            style={{fontFamily:"Arial", fontSize:20, fontWeight:'bold', fontStyle:"italic", color:"#0000FF"}}
-            position={[0,0,-5]}/>
+
   			<ViroAmbientLight color="#FFFFFF" />
-  			<ViroSpotLight innerAngle={5} outerAngle={90} direction={[0,-1,-.2]} position={[0, 3, 1]} color="#ffffff" castsShadow={true} />
+  			<ViroSpotLight innerAngle={5} outerAngle={90} direction={[0,-1,-.2]}
+          position={[0, 3, 1]} color="#ffffff" castsShadow={true} />
 
         {this._getCharacterModel()}
         {this._getImageMarkers()}
+        {this._getRecognitionResponse()}
 
        </ViroARScene>
     );
+  }
+
+  _getRecognitionResponse() {
+    if (this.state.recognitionSucceeded == undefined || this.state.showsRecognitionResponse)
+      return
+
+    const responseText = this.state.recognitionSucceeded
+      ? "Success!"
+      : "Failed.";
+
+    const sound = this.state.recognitionSucceeded
+      ? <ViroSound source={require("./res/sounds/success.mp3")} />
+      : <ViroSound source={require("./res/sounds/failure.mp3")} />;
+
+    return (
+      <ViroARCamera>
+        <ViroText position={[0, 0, -6]} text={responseText} width={2} height={2} textAlign="center"
+          style={{fontFamily:"Arial", fontSize:35, fontWeight:'bold', color:"#FFFFFF"}}/>
+        <ViroButton
+            source={require("../img/replay.png")}
+            position={[0, 0, -10]}
+            height={1}
+            width={1}
+            onClick={() => this._drawAgain()}/>
+        {sound}
+      </ViroARCamera>
+    );
+  }
+
+  _drawAgain() {
+    this.setState({
+      recognitionSucceeded: undefined,
+      showsRecognitionResponse: false
+    });
+  }
+
+  _characerDetectionSuccess() {
+    this.setState({
+      recognitionSucceeded: true
+    });
+  }
+
+  _characerDetectionFailure() {
+    this.setState({
+      recognitionSucceeded: false
+    })
   }
 
   _getCharacterModel() {
@@ -113,15 +160,15 @@ export default class HelloWorldSceneAR extends Component {
     this._registerCharacterTagets(language, char);
     return (
       <View>
-        <ViroARImageMarker target={"c1"} onAnchorFound={() => alert(char + "1")}>
+        <ViroARImageMarker target={"c1"} onAnchorFound={() => this._characerDetectionSuccess()}>
         </ViroARImageMarker>
-        <ViroARImageMarker target={"c2"} onAnchorFound={() => alert(char + "2")}>
+        <ViroARImageMarker target={"c2"} onAnchorFound={() => this._characerDetectionSuccess()}>
         </ViroARImageMarker>
-        <ViroARImageMarker target={"c3"} onAnchorFound={() => alert(char + "3")}>
+        <ViroARImageMarker target={"c3"} onAnchorFound={() => this._characerDetectionSuccess()}>
         </ViroARImageMarker>
-        <ViroARImageMarker target={"c4"} onAnchorFound={() => alert(char + "4")}>
+        <ViroARImageMarker target={"c4"} onAnchorFound={() => this._characerDetectionSuccess()}>
         </ViroARImageMarker>
-        <ViroARImageMarker target={"c5"} onAnchorFound={() => alert(char + "5")}>
+        <ViroARImageMarker target={"c5"} onAnchorFound={() => this._characerDetectionSuccess()}>
         </ViroARImageMarker>
       </View>
     )

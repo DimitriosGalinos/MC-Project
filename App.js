@@ -40,9 +40,7 @@ var InitialARScene = require('./js/HelloWorldSceneAR');
 
 const navigator = {
   home: 0,
-  language_selector: 1,
-  character_selector: 2,
-  ar: 3
+  ar: 1
 }
 
 // This determines which type of experience to launch in, or UNSET, if the user should
@@ -206,9 +204,12 @@ export default class ViroSample extends Component {
     return (
       <View style={styles.viroContainer}>
         <ViroARSceneNavigator {...this.state.sharedProps} initialScene={{scene: InitialARScene,
-              passProps: {language: this.state.language, character: this.state.character, nextButtonPresses: this.state.nextButtonPresses}}}
+              passProps: {language: this.state.language, character: this.state.character,
+                          nextButtonPresses: this.state.nextButtonPresses, exitButtonRef: this._exitViroButtonRef}}}
               numberOfTrackedImages={5} autofocus={true}/>
-        <TouchableOpacity onPress={() => this._exitViro()} style={styles.menuButton}><Text>Menu</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => this._exitViro()} style={styles.menuButton}>
+          <Image source={require("./img/logout.png")} style={{maxWidth: "100%", maxHeight: "100%"}}/>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -246,19 +247,10 @@ var styles = StyleSheet.create({
   },
   menuButton: {
     position: 'absolute',
-    width: 50,
-    height: 35,
-    borderRadius: 20,
+    width: 40,
+    height: 40,
     top: 40,
     left: 10,
-    backgroundColor: 'white',
-    color: 'black',
-    fontWeight: 'bold',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: 'black',
-    borderWidth: 1,
-    fontSize: 12
   },
   container: {
     flex : 1,
