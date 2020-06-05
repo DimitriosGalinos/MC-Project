@@ -83,12 +83,12 @@ function loadJapaneseCharacterTrackingImages() {
       a4: require('../res/languages/japanese/a/a4.jpg'),
       a5: require('../res/languages/japanese/a/a5.jpg')
     },
-    ko: {
-      ko1: require('../res/languages/japanese/ko/ko1.jpg'),
-      ko2: require('../res/languages/japanese/ko/ko2.jpg'),
-      ko3: require('../res/languages/japanese/ko/ko3.jpg'),
-      ko4: require('../res/languages/japanese/ko/ko4.jpg'),
-      ko5: require('../res/languages/japanese/ko/ko5.jpg')
+    gu: {
+      gu1: require('../res/languages/japanese/gu/gu1.jpg'),
+      gu2: require('../res/languages/japanese/gu/gu2.jpg'),
+      gu3: require('../res/languages/japanese/gu/gu3.jpg'),
+      gu4: require('../res/languages/japanese/gu/gu4.jpg'),
+      gu5: require('../res/languages/japanese/gu/gu5.jpg')
     },
     ma: {
       ma1: require('../res/languages/japanese/ma/ma1.jpg'),
@@ -97,12 +97,12 @@ function loadJapaneseCharacterTrackingImages() {
       ma4: require('../res/languages/japanese/ma/ma4.jpg'),
       ma5: require('../res/languages/japanese/ma/ma5.jpg')
     },
-    l: {
-      l1: require('../res/languages/japanese/l/l1.jpg'),
-      l2: require('../res/languages/japanese/l/l2.jpg'),
-      l3: require('../res/languages/japanese/l/l3.jpg'),
-      l4: require('../res/languages/japanese/l/l4.jpg'),
-      l5: require('../res/languages/japanese/l/l5.jpg')
+    ki: {
+      ki1: require('../res/languages/japanese/ki/ki1.jpg'),
+      ki2: require('../res/languages/japanese/ki/ki2.jpg'),
+      ki3: require('../res/languages/japanese/ki/ki3.jpg'),
+      ki4: require('../res/languages/japanese/ki/ki4.jpg'),
+      ki5: require('../res/languages/japanese/ki/ki5.jpg')
     },
   }
 }

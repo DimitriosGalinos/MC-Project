@@ -209,7 +209,6 @@ export default class ViroSample extends Component {
               passProps: {language: this.state.language, character: this.state.character, nextButtonPresses: this.state.nextButtonPresses}}}
               numberOfTrackedImages={5} autofocus={true}/>
         <TouchableOpacity onPress={() => this._exitViro()} style={styles.menuButton}><Text>Menu</Text></TouchableOpacity>
-        <Text style={{position:'absolute', width: 100, height: 100, bottom: 150, left: 10}}>{'' + this.state.nextButtonPresses}</Text>
       </View>
     );
   }
