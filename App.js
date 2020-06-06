@@ -26,6 +26,11 @@ import {
   ViroARSceneNavigator
 } from 'react-viro';
 
+import {
+    Player,
+    MediaStates
+} from '@react-native-community/audio-toolkit';
+
 import imageLoader from './js/services/imageLoader';
 
 /*
@@ -250,6 +255,13 @@ var styles = StyleSheet.create({
     width: 40,
     height: 40,
     top: 40,
+    left: 10,
+  },
+  playCharacterSoundButton: {
+    position: 'absolute',
+    width: 40,
+    height: 40,
+    top: 90,
     left: 10,
   },
   container: {

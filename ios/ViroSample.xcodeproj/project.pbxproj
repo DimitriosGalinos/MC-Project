@@ -40,6 +40,9 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
+		090E849E992F47E8A4F5CF12 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE2BAE4A9FB8481DA4A2ED2C /* libRNSound.a */; };
+		A544D8906CB544A0B7630F33 /* libRNSoundPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B202C39B164480F9D550FF8 /* libRNSoundPlayer.a */; };
+		46AA7A34B12C4D2996ED3A25 /* libReactNativeAudioToolkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CBD7CE58EEB49C3B3C626B5 /* libReactNativeAudioToolkit.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -347,6 +350,12 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		392107C3321A4A498FDE9BCA /* RNSound.xcodeproj */ = {isa = PBXFileReference; name = "RNSound.xcodeproj"; path = "../node_modules/react-native-sound/RNSound.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		BE2BAE4A9FB8481DA4A2ED2C /* libRNSound.a */ = {isa = PBXFileReference; name = "libRNSound.a"; path = "libRNSound.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		368FFAE31820412DA09FA145 /* RNSoundPlayer.xcodeproj */ = {isa = PBXFileReference; name = "RNSoundPlayer.xcodeproj"; path = "../node_modules/react-native-sound-player/ios/RNSoundPlayer.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		8B202C39B164480F9D550FF8 /* libRNSoundPlayer.a */ = {isa = PBXFileReference; name = "libRNSoundPlayer.a"; path = "libRNSoundPlayer.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		C3605FC1ADD64650B5E47A6C /* ReactNativeAudioToolkit.xcodeproj */ = {isa = PBXFileReference; name = "ReactNativeAudioToolkit.xcodeproj"; path = "../node_modules/@react-native-community/audio-toolkit/ios/ReactNativeAudioToolkit/ReactNativeAudioToolkit.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		5CBD7CE58EEB49C3B3C626B5 /* libReactNativeAudioToolkit.a */ = {isa = PBXFileReference; name = "libReactNativeAudioToolkit.a"; path = "libReactNativeAudioToolkit.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -375,6 +384,9 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
+				090E849E992F47E8A4F5CF12 /* libRNSound.a in Frameworks */,
+				A544D8906CB544A0B7630F33 /* libRNSoundPlayer.a in Frameworks */,
+				46AA7A34B12C4D2996ED3A25 /* libReactNativeAudioToolkit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,6 +576,9 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
+				392107C3321A4A498FDE9BCA /* RNSound.xcodeproj */,
+				368FFAE31820412DA09FA145 /* RNSoundPlayer.xcodeproj */,
+				C3605FC1ADD64650B5E47A6C /* ReactNativeAudioToolkit.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -692,7 +707,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 940;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -1189,6 +1204,18 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ViroSample.app/ViroSample";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/audio-toolkit/ios/ReactNativeAudioToolkit/ReactNativeAudioToolkit",
+				);
 			};
 			name = Debug;
 		};
@@ -1207,6 +1234,18 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ViroSample.app/ViroSample";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/audio-toolkit/ios/ReactNativeAudioToolkit/ReactNativeAudioToolkit",
+				);
 			};
 			name = Release;
 		};
@@ -1226,6 +1265,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ViroSample;
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/audio-toolkit/ios/ReactNativeAudioToolkit/ReactNativeAudioToolkit",
+				);
 			};
 			name = Debug;
 		};
@@ -1244,6 +1289,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ViroSample;
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/audio-toolkit/ios/ReactNativeAudioToolkit/ReactNativeAudioToolkit",
+				);
 			};
 			name = Release;
 		};
@@ -1270,6 +1321,18 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/audio-toolkit/ios/ReactNativeAudioToolkit/ReactNativeAudioToolkit",
+				);
 			};
 			name = Debug;
 		};
@@ -1296,6 +1359,18 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/audio-toolkit/ios/ReactNativeAudioToolkit/ReactNativeAudioToolkit",
+				);
 			};
 			name = Release;
 		};
@@ -1321,6 +1396,18 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ViroSample-tvOS.app/ViroSample-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/audio-toolkit/ios/ReactNativeAudioToolkit/ReactNativeAudioToolkit",
+				);
 			};
 			name = Debug;
 		};
@@ -1346,6 +1433,18 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ViroSample-tvOS.app/ViroSample-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
+					"$(SRCROOT)/../node_modules/react-native-sound-player/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/audio-toolkit/ios/ReactNativeAudioToolkit/ReactNativeAudioToolkit",
+				);
 			};
 			name = Release;
 		};

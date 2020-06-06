@@ -25,6 +25,7 @@ import {
 
 import imageLoader from './services/imageLoader';
 import modelLoader from './services/modelLoader';
+import soundLoader from './services/soundLoader';
 
 export default class HelloWorldSceneAR extends Component {
 
@@ -36,7 +37,8 @@ export default class HelloWorldSceneAR extends Component {
       text : "Initializing AR...",
       recognitionSucceeded: undefined,
       showsRecognitionResponse: false,
-      currentStroke: 1
+      currentStroke: 1,
+      playCharacterSound: false
     };
 
     // bind 'this' to functions
@@ -52,6 +54,7 @@ export default class HelloWorldSceneAR extends Component {
     this._characerDetectionFailure = this._characerDetectionFailure.bind(this);
     this._getRecognitionResponse = this._getRecognitionResponse.bind(this);
     this._drawAgain = this._drawAgain.bind(this);
+    this._getCharacterSound = this._getCharacterSound.bind(this);
   }
 
 // Viroplane visualizes planes and if you click them they disappear
@@ -71,8 +74,22 @@ export default class HelloWorldSceneAR extends Component {
         {this._getCharacterModel()}
         {this._getImageMarkers()}
         {this._getRecognitionResponse()}
+        {this._getCharacterSound()}
 
        </ViroARScene>
+    );
+  }
+
+  _getCharacterSound() {
+    if (!this.state.playCharacterSound)
+      return
+
+    const char = this.props.character;
+    const language = this.props.language;
+    const characterSounds = soundLoader.loadCharacterSoundsForLanguage(language);
+    const sound = characterSounds[char];
+    return (
+      <ViroSound source={sound} onFinish={() => this.setState({playCharacterSound: false})}/>
     );
   }
 
@@ -129,6 +146,12 @@ export default class HelloWorldSceneAR extends Component {
     const currentStroke = this.state.currentStroke;
     return (
       <ViroNode position={[0,0,-1]} dragType="FixedToWorld" onDrag={()=>{}} >
+        <ViroButton
+            source={require("../img/sound.png")}
+            position={[3.5, 1, -9]}
+            height={1}
+            width={1}
+            onClick={() => this.setState({playCharacterSound: true})}/>
         <Viro3DObject
           source={characterModels[char][currentStroke].obj}
           resources={[characterModels[char][currentStroke].mtl]}
