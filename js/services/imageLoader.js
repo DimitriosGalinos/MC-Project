@@ -35,8 +35,8 @@ function loadKoreanCharacterSelectImages() {
 function loadJapaneseCharacterSelectImages() {
   return {
     a: require('../../img/characters/japanese/a.png'),
-    ko: require('../../img/characters/japanese/ko.png'),
-    l: require('../../img/characters/japanese/l.jpg'),
+    ki: require('../../img/characters/japanese/ki.png'),
+    gu: require('../../img/characters/japanese/gu.png'),
     ma: require('../../img/characters/japanese/ma.png')
   }
 }
