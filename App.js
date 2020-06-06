@@ -202,7 +202,8 @@ export default class ViroSample extends Component {
   _getARNavigator() {
     return (
       <View style={styles.viroContainer}>
-        <ViroARSceneNavigator {...this.state.sharedProps} initialScene={{scene: InitialARScene,
+        <ViroARSceneNavigator {...this.state.sharedProps} ref={(ref) => (this._ARSceneNav = ref)}
+              initialScene={{scene: InitialARScene,
               passProps: {language: this.state.language, character: this.state.character,
                           nextButtonPresses: this.state.nextButtonPresses, exitButtonRef: this._exitViroButtonRef}}}
               numberOfTrackedImages={5} autofocus={true}/>

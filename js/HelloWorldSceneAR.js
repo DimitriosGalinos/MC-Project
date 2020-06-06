@@ -38,7 +38,8 @@ export default class HelloWorldSceneAR extends Component {
       recognitionSucceeded: undefined,
       showsRecognitionResponse: false,
       currentStroke: 1,
-      playCharacterSound: false
+      playCharacterSound: false,
+      isScanning: false
     };
 
     // bind 'this' to functions
@@ -55,6 +56,7 @@ export default class HelloWorldSceneAR extends Component {
     this._getRecognitionResponse = this._getRecognitionResponse.bind(this);
     this._drawAgain = this._drawAgain.bind(this);
     this._getCharacterSound = this._getCharacterSound.bind(this);
+    this._onFinishedScan = this._onFinishedScan.bind(this);
   }
 
 // Viroplane visualizes planes and if you click them they disappear
@@ -73,8 +75,17 @@ export default class HelloWorldSceneAR extends Component {
 
         {this._getCharacterModel()}
         {this._getImageMarkers()}
-        {this._getRecognitionResponse()}
         {this._getCharacterSound()}
+
+        <ViroARCamera>
+          {this._getRecognitionResponse()}
+          <ViroButton
+              source={require("../img/scan.png")}
+              position={[0, -5, -10]}
+              height={1}
+              width={1}
+              onClick={() => this.setState({isScanning: true})}/>
+        </ViroARCamera>
 
        </ViroARScene>
     );
@@ -106,7 +117,7 @@ export default class HelloWorldSceneAR extends Component {
       : <ViroSound source={require("./res/sounds/failure.mp3")} />;
 
     return (
-      <ViroARCamera>
+      <ViroNode>
         <ViroText position={[0, 0, -6]} text={responseText} width={2} height={2} textAlign="center"
           style={{fontFamily:"Arial", fontSize:35, fontWeight:'bold', color:"#FFFFFF"}}/>
         <ViroButton
@@ -116,7 +127,7 @@ export default class HelloWorldSceneAR extends Component {
             width={1}
             onClick={() => this._drawAgain()}/>
         {sound}
-      </ViroARCamera>
+      </ViroNode>
     );
   }
 
@@ -177,10 +188,23 @@ export default class HelloWorldSceneAR extends Component {
       this.setState({currentStroke: currentStroke + 1})
   }
 
+  _onFinishedScan() {
+    if (this.state.recognitionSucceeded)
+      this.setState({isScanning: false});
+    else
+      this.setState({isScanning: false, recognitionSucceeded: false })
+  }
+
   _getImageMarkers() {
+    if (!this.state.isScanning)
+      return
+
     const char = this.props.character;
     const language = this.props.language;
     this._registerCharacterTagets(language, char);
+
+    setTimeout(this._onFinishedScan, 10000);
+
     return (
       <View>
         <ViroARImageMarker target={"c1"} onAnchorFound={() => this._characerDetectionSuccess()}>
@@ -206,31 +230,31 @@ export default class HelloWorldSceneAR extends Component {
       'c1' : {
         source : imagesForChar[char + '1'],
         orientation : "Up",
-        physicalWidth : 0.015, // real world width in meters
+        physicalWidth : 0.02, // real world width in meters
         type: 'image'
       },
       'c2' : {
         source : imagesForChar[char + '2'],
         orientation : "Up",
-        physicalWidth : 0.015, // real world width in meters
+        physicalWidth : 0.02, // real world width in meters
         type: 'image'
       },
       'c3' : {
         source : imagesForChar[char + '3'],
         orientation : "Up",
-        physicalWidth : 0.015, // real world width in meters
+        physicalWidth : 0.02, // real world width in meters
         type: 'image'
       },
       'c4' : {
         source : imagesForChar[char + '4'],
         orientation : "Up",
-        physicalWidth : 0.015, // real world width in meters
+        physicalWidth : 0.02, // real world width in meters
         type: 'image'
       },
       'c5' : {
         source : imagesForChar[char + '5'],
         orientation : "Up",
-        physicalWidth : 0.015, // real world width in meters
+        physicalWidth : 0.02, // real world width in meters
         type: 'image'
       }
     });
