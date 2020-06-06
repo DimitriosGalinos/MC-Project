@@ -26,11 +26,7 @@ import {
   ViroARSceneNavigator
 } from 'react-viro';
 
-import {
-    Player,
-    MediaStates
-} from '@react-native-community/audio-toolkit';
-
+import { captureScreen } from "react-native-view-shot";
 import imageLoader from './js/services/imageLoader';
 
 /*
@@ -208,7 +204,8 @@ export default class ViroSample extends Component {
   _getARNavigator() {
     return (
       <View style={styles.viroContainer}>
-        <ViroARSceneNavigator {...this.state.sharedProps} initialScene={{scene: InitialARScene,
+        <ViroARSceneNavigator {...this.state.sharedProps} ref={(ref) => (this._ARSceneNav = ref)}
+              initialScene={{scene: InitialARScene,
               passProps: {language: this.state.language, character: this.state.character,
                           nextButtonPresses: this.state.nextButtonPresses, exitButtonRef: this._exitViroButtonRef}}}
               numberOfTrackedImages={5} autofocus={true}/>
@@ -369,6 +366,22 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     letterSpacing: 2.5,
     marginTop: -30
+  },
+  cameraButton: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    borderRadius: 20,
+    bottom: 40,
+    left: 40,
+    backgroundColor: 'white',
+    color: 'black',
+    fontWeight: 'bold',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 1,
+    fontSize: 12
   }
 });
 

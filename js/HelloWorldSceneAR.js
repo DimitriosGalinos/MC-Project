@@ -139,6 +139,28 @@ export default class HelloWorldSceneAR extends Component {
     })
   }
 
+  // _getCharacterModel() {
+  //   const char = this.props.character;
+  //   const language = this.props.language;
+  //   const characterModels = modelLoader.loadCharacterModelsForLanguage(language);
+  //   const currentStroke = this.state.currentStroke;
+  //   return (
+  //   <ViroARPlaneSelector minHeight={.5} minWidth={.5}
+  //           onPlaneSelected={()=>{this.setState({pauseUpdates : true})}}
+  //           pauseUpdates={this.state.pauseUpdates}>
+  //       <Viro3DObject
+  //         source={characterModels[char][currentStroke].obj}
+  //         resources={[characterModels[char][currentStroke].mtl]}
+  //         type="OBJ"
+  //         position={[0.0, 0.0, 0]}
+  //         scale={[0.05, 0.05, 0.05]}
+  //         rotation={[0, -45, -90]}
+  //         onClick={() => this._nextStroke()}
+  //       />
+  //    </ViroARPlaneSelector>
+  //   );
+  // }
+
   _getCharacterModel() {
     const char = this.props.character;
     const language = this.props.language;
