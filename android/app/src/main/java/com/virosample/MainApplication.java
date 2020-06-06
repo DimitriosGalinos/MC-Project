@@ -3,6 +3,7 @@ package com.virosample;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactnativecommunity.rctaudiotoolkit.AudioPackage;
 import com.johnsonsu.rnsoundplayer.RNSoundPlayerPackage;
 import com.zmxv.RNSound.RNSoundPackage;
@@ -26,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VectorIconsPackage(),
             new AudioPackage(),
             new RNSoundPlayerPackage(),
             new RNSoundPackage()
