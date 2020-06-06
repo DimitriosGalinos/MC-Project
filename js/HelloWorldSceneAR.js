@@ -203,7 +203,7 @@ export default class HelloWorldSceneAR extends Component {
     const language = this.props.language;
     this._registerCharacterTagets(language, char);
 
-    setTimeout(this._onFinishedScan, 2000);
+    setTimeout(this._onFinishedScan, 10000);
 
     return (
       <View>
