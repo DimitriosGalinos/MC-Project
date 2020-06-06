@@ -22,12 +22,18 @@ import {
   SafeAreaView
 } from 'react-native';
 
+import { Icon } from 'react-native-elements'
+
 import {
   ViroARSceneNavigator
 } from 'react-viro';
 
-import { captureScreen } from "react-native-view-shot";
-import imageLoader from './js/services/imageLoader';
+import {
+    Player,
+    MediaStates
+} from '@react-native-community/audio-toolkit';
+
+import characterLoader from './js/services/characterLoader';
 
 /*
  TODO: Insert your API key below
@@ -116,8 +122,8 @@ export default class ViroSample extends Component {
   _getDeselectButton() {
     if (this.state.language) {
       return (
-        <TouchableHighlight style={styles.backButton} onPress={() => this.setState({language: null, character: null})}>
-          <Text style={styles.buttonText}>Choose another language</Text>
+        <TouchableHighlight style={styles.anotherLanguageButton} onPress={() => this.setState({language: null, character: null})}>
+          <Text style={styles.buttonAnotherLanguageText}>Choose another language</Text>
         </TouchableHighlight>
       )
     }
@@ -151,6 +157,7 @@ export default class ViroSample extends Component {
         data={this.state.characterDataSource}
         renderItem={({ item }) => this._getCharacterItem(item)}
         numColumns={4}
+        contentContainerStyle={styles.characterContainer}
         keyExtractor={item => item.id}
       />
     );
@@ -160,23 +167,25 @@ export default class ViroSample extends Component {
     if (item.id == this.state.character) {
       return (
         <TouchableOpacity style={styles.highlightedCharacterButton} onPress={() => this._setCharacter(item.id)}>
-          <Image source={item.source} style={{maxWidth: "100%", maxHeight: "100%"}}/>
+           <Text style={styles.character}>{item.character}</Text>
+           <Text style={styles.characterLatin}>{item.id}</Text>
         </TouchableOpacity>
       );
     }
 
     return (
       <TouchableOpacity style={styles.characterButton} onPress={() => this._setCharacter(item.id)}>
-        <Image source={item.source} style={{maxWidth: "100%", maxHeight: "100%"}}/>
+        <Text style={styles.character}>{item.character}</Text>
+        <Text style={styles.characterLatin}>{item.id}</Text>
       </TouchableOpacity>
     );
   }
 
   _setLanguage(language) {
-    var selectImages = imageLoader.loadCharacterSelectImagesForLanguage(language);
+    var characterSet = characterLoader.loadCharacterSetForLanguage(language);
     var dataSource = [];
-    for (var key in selectImages) {
-      dataSource.push({source: selectImages[key], id: key});
+    for (var key in characterSet) {
+      dataSource.push({character: characterSet[key], id: key});
     }
 
     this.setState({
@@ -338,25 +347,42 @@ var styles = StyleSheet.create({
     marginLeft: -7,
     width: "100%"
   },
+  character: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 30
+  },
+  characterLatin: {
+    textAlign: 'left',
+    fontSize: 12,
+    color: '#e64437',
+    fontWeight: 'bold',
+    paddingLeft: 8,
+    marginBottom: -18
+  },
   characterButton: {
     flex: 1,
     flexDirection: 'column',
     height: 75,
-    margin: 1,
-    backgroundColor: 'rgba(52, 52, 52, 0.2)',
+    width: 75,
+    margin: 2,
+    backgroundColor: '#e5e1e2',
+    borderRadius: 11,
+    justifyContent: "center",
     borderWidth: 2,
-    borderRadius: 5,
-    borderColor: 'rgba(52, 52, 52, 0.0)'
+    borderColor: 'white',
   },
   highlightedCharacterButton: {
     flex: 1,
     flexDirection: 'column',
     height: 75,
-    margin: 1,
-    backgroundColor: 'rgba(52, 52, 52, 0.2)',
+    width: 75,
     borderWidth: 2,
-    borderRadius: 5,
-    borderColor: 'orange'
+    borderRadius: 11,
+    borderColor: '#ebadaa',
+    backgroundColor: '#f2f2f2',
+    justifyContent: "center",
+    margin: 2
   },
   languageName: {
     width: "100%",
@@ -367,6 +393,7 @@ var styles = StyleSheet.create({
     letterSpacing: 2.5,
     marginTop: -30
   },
+<<<<<<< HEAD
   cameraButton: {
     position: 'absolute',
     width: 100,
@@ -382,6 +409,25 @@ var styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     fontSize: 12
+=======
+  anotherLanguageButton: {
+    backgroundColor: 'white',
+    justifyContent: "center",
+    borderRadius: 20,
+    width: "100%",
+    height: 55,
+    marginTop: 15,
+    marginBottom: 30
+  },
+  buttonAnotherLanguageText: {
+    color: 'black',
+    textAlign: 'left',
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginLeft: 30
+  },
+  characterContainer: {
+>>>>>>> b52ab088aa4b844e2f9659bc69ac2f2d49782035
   }
 });
 
