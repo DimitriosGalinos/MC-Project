@@ -22,16 +22,9 @@ import {
   SafeAreaView
 } from 'react-native';
 
-import { Icon } from 'react-native-elements'
-
 import {
   ViroARSceneNavigator
 } from 'react-viro';
-
-import {
-    Player,
-    MediaStates
-} from '@react-native-community/audio-toolkit';
 
 import characterLoader from './js/services/characterLoader';
 
@@ -157,7 +150,7 @@ export default class ViroSample extends Component {
         data={this.state.characterDataSource}
         renderItem={({ item }) => this._getCharacterItem(item)}
         numColumns={4}
-        contentContainerStyle={styles.characterContainer}
+        contentContainerStyle={styles.characterContainter}
         keyExtractor={item => item.id}
       />
     );
@@ -393,23 +386,6 @@ var styles = StyleSheet.create({
     letterSpacing: 2.5,
     marginTop: -30
   },
-<<<<<<< HEAD
-  cameraButton: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    borderRadius: 20,
-    bottom: 40,
-    left: 40,
-    backgroundColor: 'white',
-    color: 'black',
-    fontWeight: 'bold',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: 'black',
-    borderWidth: 1,
-    fontSize: 12
-=======
   anotherLanguageButton: {
     backgroundColor: 'white',
     justifyContent: "center",
@@ -426,8 +402,8 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 30
   },
-  characterContainer: {
->>>>>>> b52ab088aa4b844e2f9659bc69ac2f2d49782035
+  characterContainter: {
+
   }
 });
 
