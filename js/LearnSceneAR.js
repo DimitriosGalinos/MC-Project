@@ -26,8 +26,9 @@ import {
 import imageLoader from './services/imageLoader';
 import modelLoader from './services/modelLoader';
 import soundLoader from './services/soundLoader';
+import characterLoader from './services/characterLoader';
 
-export default class HelloWorldSceneAR extends Component {
+export default class LearhSeneAR extends Component {
 
   constructor() {
     super();
@@ -39,13 +40,13 @@ export default class HelloWorldSceneAR extends Component {
       showsRecognitionResponse: false,
       currentStroke: 1,
       playCharacterSound: false,
-      isScanning: false
+      isScanning: false,
+      learnedChars: 0
     };
 
     // bind 'this' to functions
     this._onInitialized = this._onInitialized.bind(this);
 	   // REMEMBER TO BIND EVERY FUNCTION!!
-    this._onTappedIcecream = this._onTappedIcecream.bind(this);
 	  this._getImageMarkers = this._getImageMarkers.bind(this);
     this._removeCharacterTagets = this._removeCharacterTagets.bind(this);
     this._registerCharacterTagets = this._registerCharacterTagets.bind(this);
@@ -95,10 +96,9 @@ export default class HelloWorldSceneAR extends Component {
     if (!this.state.playCharacterSound)
       return
 
-    const char = this.props.character;
     const language = this.props.language;
     const characterSounds = soundLoader.loadCharacterSoundsForLanguage(language);
-    const sound = characterSounds[char];
+    const sound = characterSounds[this._getCharacterId()];
     return (
       <ViroSound source={sound} onFinish={() => this.setState({playCharacterSound: false})}/>
     );
@@ -116,19 +116,37 @@ export default class HelloWorldSceneAR extends Component {
       ? <ViroSound source={require("./res/sounds/success.mp3")} />
       : <ViroSound source={require("./res/sounds/failure.mp3")} />;
 
+    const language = this.props.language;
+    var characterSet = characterLoader.loadCharacterSetForLanguage(language);
+
     return (
       <ViroNode>
-        <ViroText position={[0, 0, -6]} text={responseText} width={2} height={2} textAlign="center"
+        <ViroText position={[0, 1, -6]} text={responseText} width={2} height={2} textAlign="center"
           style={{fontFamily:"Arial", fontSize:35, fontWeight:'bold', color:"#FFFFFF"}}/>
         <ViroButton
             source={require("../img/replay.png")}
-            position={[0, 0, -10]}
+            position={[0, 1, -10]}
             height={1}
             width={1}
             onClick={() => this._drawAgain()}/>
+        <ViroText position={[0, -1, -6]} text={'learn next character!'} 
+          width={2} height={2} textAlign="center"
+          style={{fontFamily:"Arial", fontSize:35, fontWeight:'bold', color:"#FFFFFF"}}
+          onClick={() => this._drawNext() } />
         {sound}
       </ViroNode>
     );
+  }
+  
+  _drawNext() {
+    this.setState({
+      text : "Initializing AR...",
+      recognitionSucceeded: undefined,
+      showsRecognitionResponse: false,
+      currentStroke: 1,
+      playCharacterSound: false,
+      learnedChars: this.state.learnedChars + 1
+    });
   }
 
   _drawAgain() {
@@ -151,7 +169,6 @@ export default class HelloWorldSceneAR extends Component {
   }
 
   _getCharacterModel() {
-    const char = this.props.character;
     const language = this.props.language;
     const characterModels = modelLoader.loadCharacterModelsForLanguage(language);
     const currentStroke = this.state.currentStroke;
@@ -164,8 +181,8 @@ export default class HelloWorldSceneAR extends Component {
             width={1}
             onClick={() => this.setState({playCharacterSound: true})}/>
         <Viro3DObject
-          source={characterModels[char][currentStroke].obj}
-          resources={[characterModels[char][currentStroke].mtl]}
+          source={characterModels[this._getCharacterId()][currentStroke].obj}
+          resources={[characterModels[this._getCharacterId()][currentStroke].mtl]}
           type="OBJ"
           position={[0.0, 0.0, -10]}
           scale={[0.05, 0.05, 0.05]}
@@ -176,11 +193,14 @@ export default class HelloWorldSceneAR extends Component {
     );
   }
 
+  _getCharacterId() {
+    return this.props.characterIds[this.state.learnedChars % this.props.characterIds.length];
+  }
+
   _nextStroke() {
-    const char = this.props.character;
     const language = this.props.language;
     const characterModels = modelLoader.loadCharacterModelsForLanguage(language);
-    var maxStrokeCount = characterModels[char].numberOfStrokes;
+    var maxStrokeCount = characterModels[this._getCharacterId()].numberOfStrokes;
     var currentStroke = this.state.currentStroke;
     if (currentStroke == maxStrokeCount)
       this.setState({currentStroke: 1})
@@ -199,9 +219,8 @@ export default class HelloWorldSceneAR extends Component {
     if (!this.state.isScanning)
       return
 
-    const char = this.props.character;
-    const language = this.props.language;
-    this._registerCharacterTagets(language, char);
+      const language = this.props.language;
+      this._registerCharacterTagets(language, this._getCharacterId());
 
     setTimeout(this._onFinishedScan, 10000);
 
@@ -221,38 +240,38 @@ export default class HelloWorldSceneAR extends Component {
     )
   }
 
-  _registerCharacterTagets(language, char) {
+  _registerCharacterTagets(language, charId) {
     this._removeCharacterTagets();
     var allImages = imageLoader.loadCharacterTrackingImagesForLanguage(language);
-    var imagesForChar = allImages[char];
+    var imagesForChar = allImages[charId];
 
     ViroARTrackingTargets.createTargets({
       'c1' : {
-        source : imagesForChar[char + '1'],
+        source : imagesForChar[charId + '1'],
         orientation : "Up",
         physicalWidth : 0.02, // real world width in meters
         type: 'image'
       },
       'c2' : {
-        source : imagesForChar[char + '2'],
+        source : imagesForChar[charId + '2'],
         orientation : "Up",
         physicalWidth : 0.02, // real world width in meters
         type: 'image'
       },
       'c3' : {
-        source : imagesForChar[char + '3'],
+        source : imagesForChar[charId + '3'],
         orientation : "Up",
         physicalWidth : 0.02, // real world width in meters
         type: 'image'
       },
       'c4' : {
-        source : imagesForChar[char + '4'],
+        source : imagesForChar[charId + '4'],
         orientation : "Up",
         physicalWidth : 0.02, // real world width in meters
         type: 'image'
       },
       'c5' : {
-        source : imagesForChar[char + '5'],
+        source : imagesForChar[charId + '5'],
         orientation : "Up",
         physicalWidth : 0.02, // real world width in meters
         type: 'image'
@@ -276,23 +295,11 @@ export default class HelloWorldSceneAR extends Component {
     }
   }
 
-  // On-tap action
-  _onTappedIcecream() {
-    this.setState({
-      runAnimation : !this.state.runAnimation,
-    })
-  }
 }
 
 // text styling
 var styles = StyleSheet.create({
-  helloWorldTextStyle: {
-    fontFamily: 'Arial',
-    fontSize: 10,
-    color: '#ffffff',
-    textAlignVertical: 'center',
-    textAlign: 'center',
-  },
+  
 });
 
-module.exports = HelloWorldSceneAR;
+module.exports = LearhSeneAR;

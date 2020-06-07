@@ -36,7 +36,7 @@ var sharedProps = {
 }
 
 // Sets the default scene you want for AR and VR
-var InitialARScene = require('./js/HelloWorldSceneAR');
+var InitialARScene = require('./js/LearnSceneAR');
 
 const navigator = {
   home: 0,
@@ -55,7 +55,7 @@ export default class ViroSample extends Component {
       navigatorType : defaultNavigatorType,
       sharedProps : sharedProps,
       language: null,
-      character: null,
+      characterId: null,
       characterDataSource: null,
       error: null,
     }
@@ -65,7 +65,7 @@ export default class ViroSample extends Component {
     this._getExperienceButtonOnPress = this._getExperienceButtonOnPress.bind(this);
     this._exitViro = this._exitViro.bind(this);
     this._setLanguage = this._setLanguage.bind(this);
-    this._setCharacter = this._setCharacter.bind(this);
+    this._setCharacterId = this._setCharacterId.bind(this);
     this._getCharacterItem = this._getCharacterItem.bind(this);
     this._getSelector = this._getSelector.bind(this);
     this._getErrorText = this._getErrorText.bind(this);
@@ -97,6 +97,17 @@ export default class ViroSample extends Component {
         </View>
       </View>
     );
+  }
+
+
+  _getDeselectButton() {
+    if (this.state.language) {
+      return (
+        <TouchableHighlight style={styles.anotherLanguageButton} onPress={() => this.setState({language: null, characterId: null})}>
+          <Text style={styles.buttonAnotherLanguageText}>Choose another language</Text>
+        </TouchableHighlight>
+      )
+    }
   }
 
   _getSelector() {
@@ -153,9 +164,9 @@ export default class ViroSample extends Component {
   }
 
   _getCharacterItem(item) {
-    if (item.id == this.state.character) {
+    if (item.id == this.state.characterId) {
       return (
-        <TouchableOpacity style={styles.highlightedCharacterButton} onPress={() => this._setCharacter(item.id)}>
+        <TouchableOpacity style={styles.highlightedCharacterButton} onPress={() => this._setCharacterId(item.id)}>
            <Text style={styles.character}>{item.character}</Text>
            <Text style={styles.characterLatin}>{item.id}</Text>
         </TouchableOpacity>
@@ -163,7 +174,7 @@ export default class ViroSample extends Component {
     }
 
     return (
-      <TouchableOpacity style={styles.characterButton} onPress={() => this._setCharacter(item.id)}>
+      <TouchableOpacity style={styles.characterButton} onPress={() => this._setCharacterId(item.id)}>
         <Text style={styles.character}>{item.character}</Text>
         <Text style={styles.characterLatin}>{item.id}</Text>
       </TouchableOpacity>
@@ -183,10 +194,18 @@ export default class ViroSample extends Component {
     });
   }
 
-  _setCharacter(character) {
+  _setCharacterId(characterId) {
     this.setState({
-      character: character
+      characterId: characterId
     });
+  }
+
+  _getOrderedCharacterIds(firstChar) {
+    var characterSet = characterLoader.loadCharacterSetForLanguage(this.state.language);
+    var ids = Object.keys(characterSet);
+    ids = ids.filter(e => e !== firstChar);
+    ids = [firstChar].concat(ids);
+    return ids;
   }
 
   _getErrorText() {
@@ -202,10 +221,9 @@ export default class ViroSample extends Component {
   _getARNavigator() {
     return (
       <View style={styles.viroContainer}>
-        <ViroARSceneNavigator {...this.state.sharedProps} ref={(ref) => (this._ARSceneNav = ref)}
-              initialScene={{scene: InitialARScene,
-              passProps: {language: this.state.language, character: this.state.character,
-                          nextButtonPresses: this.state.nextButtonPresses, exitButtonRef: this._exitViroButtonRef}}}
+        <ViroARSceneNavigator {...this.state.sharedProps} initialScene={{scene: InitialARScene,
+              passProps: {language: this.state.language, characterIds: this._getOrderedCharacterIds(this.state.characterId),
+              nextButtonPresses: this.state.nextButtonPresses, exitButtonRef: this._exitViroButtonRef}}}
               numberOfTrackedImages={5} autofocus={true}/>
         <TouchableOpacity onPress={() => this._exitViro()} style={styles.menuButton}>
           <Image source={require("./img/logout.png")} style={{maxWidth: "100%", maxHeight: "100%"}}/>
@@ -217,7 +235,7 @@ export default class ViroSample extends Component {
   // This function returns an anonymous/lambda function to be used
   // by the experience selector buttons
   _getExperienceButtonOnPress(navigatorType) {
-    if (!this.state.language || !this.state.character) {
+    if (!this.state.language || !this.state.characterId) {
       return () => {
         this.setState({
           error : 'You must choose a language and a character'
