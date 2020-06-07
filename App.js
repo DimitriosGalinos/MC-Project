@@ -68,7 +68,6 @@ export default class ViroSample extends Component {
     this._setCharacter = this._setCharacter.bind(this);
     this._getCharacterItem = this._getCharacterItem.bind(this);
     this._getSelector = this._getSelector.bind(this);
-    this._getDeselectButton = this._getDeselectButton.bind(this);
     this._getErrorText = this._getErrorText.bind(this);
   }
 
@@ -91,49 +90,35 @@ export default class ViroSample extends Component {
             <Image source={require('./img/logo.png')}
               style={styles.logoImage} />
           </View>
-          {this._getDeselectButton()}
-          <View style={{height:430, width: "100%"}}>
+          {this._getErrorText()}
+          <View style={{height:"100%", width: "100%"}}>
             {this._getSelector()}
           </View>
-          <Text style={styles.titleText}>
-            Learning languages made fun!
-          </Text>
-          <Text style={styles.subtitleText}>
-            There was never a better time to learn a new language
-          </Text>
-          {this._getErrorText()}
-          <TouchableHighlight style={styles.learnButton}
-            onPress={this._getExperienceButtonOnPress(navigator.ar)}
-            underlayColor={'#353535'} >
-            <Text style={styles.buttonText}>START LEARNING</Text>
-          </TouchableHighlight>
         </View>
       </View>
     );
   }
 
-  _getDeselectButton() {
-    if (this.state.language) {
-      return (
-        <TouchableHighlight style={styles.anotherLanguageButton} onPress={() => this.setState({language: null, character: null})}>
-          <Text style={styles.buttonAnotherLanguageText}>Choose another language</Text>
-        </TouchableHighlight>
-      )
-    }
-  }
-
   _getSelector() {
     if (!this.state.language) {
       return (
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
-          <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
+        <View>
+           <Text style={styles.titleText}>
+        Learning languages made fun!
+        </Text>
+        <Text style={styles.subtitleText}>
+          There was never a better time to learn a new language
+        </Text>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}
+        style={{ paddingBottom: 60}}>
+          <View style={{flex:1, flexDirection:'column', justifyContent:'center', height: "100%", paddingBottom: 60}}>
             <TouchableOpacity onPress={() => this._setLanguage('japanese')}>
               <Image source={require('./img/flags/japan.png')}
                 style={styles.languageImage} />
               <Text style={styles.languageName}>JAPANESE</Text>
             </TouchableOpacity>
           </View>
-          <View style={{flex:1, flexDirection:'column', justifyContent:'center'}}>
+          <View style={{flex:1, flexDirection:'column', justifyContent:'center', height: "100%", paddingBottom: 60}}>
             <TouchableOpacity onPress={() => this._setLanguage('korean')}>
               <Image source={require('./img/flags/south-korea.png')}
                 style={styles.languageImage} />
@@ -141,18 +126,29 @@ export default class ViroSample extends Component {
             </TouchableOpacity>
           </View>
         </ScrollView>
+        </View>
       );
     }
 
     return (
+      <View style={styles.characterSelectorContainer}>
+         <TouchableOpacity style={styles.anotherLanguageButton} onPress={() => this.setState({language: null, character: null})}>
+          <Image source={require('./img/back.png')} style={styles.backIcon}/>
+          <Text style={styles.buttonAnotherLanguageText}>Choose another language </Text>
+        </TouchableOpacity>
       <FlatList
-        style={{margin:0}}
+        style={{ flexGrow: 1 }}
         data={this.state.characterDataSource}
         renderItem={({ item }) => this._getCharacterItem(item)}
         numColumns={4}
-        contentContainerStyle={styles.characterContainter}
         keyExtractor={item => item.id}
       />
+       <TouchableHighlight style={styles.learnButton}
+            onPress={this._getExperienceButtonOnPress(navigator.ar)}
+            underlayColor={'#353535'} >
+            <Text style={styles.buttonText}>START LEARNING</Text>
+          </TouchableHighlight>
+      </View>
     );
   }
 
@@ -268,15 +264,17 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     backgroundColor: '#FFF',
+    height: "100%"
   },
   innerContainer: {
     flexDirection: 'column',
     alignItems: 'flex-start',
     backgroundColor: "white",
-    flex: 0.8
+    flex: 0.8,
+    height: '100%'
   },
   titleText: {
-    paddingTop: 30,
+    paddingTop: 60,
     paddingBottom: 5,
     color:'#000',
     textAlign:'left',
@@ -290,7 +288,8 @@ var styles = StyleSheet.create({
     color:'#7c7c7c',
     textAlign:'left',
     fontSize : 16,
-    lineHeight: 20
+    lineHeight: 20,
+    paddingBottom: 30
   },
   buttonText: {
     color:'#fff',
@@ -304,10 +303,8 @@ var styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor:'#000',
     height: 55,
-    marginTop: 15,
-    marginBottom: 50,
     position: 'absolute',
-    bottom:0,
+    bottom: 100,
     width: "100%"
   },
   backButton: {
@@ -373,7 +370,7 @@ var styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 11,
     borderColor: '#ebadaa',
-    backgroundColor: '#f2f2f2',
+    backgroundColor: '#fff',
     justifyContent: "center",
     margin: 2
   },
@@ -388,22 +385,27 @@ var styles = StyleSheet.create({
   },
   anotherLanguageButton: {
     backgroundColor: 'white',
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    flexDirection: 'row',
     borderRadius: 20,
     width: "100%",
-    height: 55,
-    marginTop: 15,
-    marginBottom: 30
+    marginBottom: 30,
+    marginTop: 20
   },
   buttonAnotherLanguageText: {
     color: 'black',
     textAlign: 'left',
     fontSize: 15,
     fontWeight: 'bold',
-    marginLeft: 30
+    marginLeft: 20
   },
-  characterContainter: {
-
+  backIcon: {
+    width: 15,
+    height: 15
+  },
+  characterSelectorContainer: {
+    height: "100%",
+    flex: 1
   }
 });
 
