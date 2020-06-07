@@ -156,7 +156,7 @@ export default class HelloWorldSceneAR extends Component {
     const characterModels = modelLoader.loadCharacterModelsForLanguage(language);
     const currentStroke = this.state.currentStroke;
     return (
-      <ViroNode position={[0,0,-50]} transformBehaviors="billboard" dragType="FixedDistance" onDrag={()=>{}} >
+      <ViroNode position={[0,-55,-10]} transformBehaviors="billboard" dragType="FixedDistance" onDrag={()=>{}} >
         <ViroButton
             source={require("../img/sound.png")}
             position={[2, 1, -9]}
