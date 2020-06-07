@@ -156,20 +156,20 @@ export default class HelloWorldSceneAR extends Component {
     const characterModels = modelLoader.loadCharacterModelsForLanguage(language);
     const currentStroke = this.state.currentStroke;
     return (
-      <ViroNode position={[0,0,-1]} dragType="FixedToWorld" onDrag={()=>{}} >
+      <ViroNode position={[0,0,-50]} transformBehaviors="billboard" dragType="FixedDistance" onDrag={()=>{}} >
         <ViroButton
             source={require("../img/sound.png")}
-            position={[3.5, 1, -9]}
-            height={1}
-            width={1}
+            position={[2, 1, -9]}
+            height={2}
+            width={2}
             onClick={() => this.setState({playCharacterSound: true})}/>
         <Viro3DObject
           source={characterModels[char][currentStroke].obj}
           resources={[characterModels[char][currentStroke].mtl]}
           type="OBJ"
-          position={[0.0, 0.0, -10]}
-          scale={[0.05, 0.05, 0.05]}
-          rotation={[0, -45, -90]}
+          position={[-2, 0.0, -9]}
+          scale={[0.1, 0.1, 0.1]}
+          rotation={[0, 0, -90]}
           onClick={() => this._nextStroke()}
         />
       </ViroNode>
