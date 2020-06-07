@@ -26,6 +26,7 @@ import {
 import imageLoader from './services/imageLoader';
 import modelLoader from './services/modelLoader';
 import soundLoader from './services/soundLoader';
+import characterLoader from './services/characterLoader';
 
 export default class HelloWorldSceneAR extends Component {
 
@@ -35,10 +36,11 @@ export default class HelloWorldSceneAR extends Component {
     // Set initial state here
     this.state = {
       text : "Initializing AR...",
-      recognitionSucceeded: undefined,
+      recognitionSucceeded: true,
       showsRecognitionResponse: false,
       currentStroke: 1,
-      playCharacterSound: false
+      playCharacterSound: false,
+      learnedChars: 0
     };
 
     // bind 'this' to functions
@@ -84,10 +86,9 @@ export default class HelloWorldSceneAR extends Component {
     if (!this.state.playCharacterSound)
       return
 
-    const char = this.props.character;
     const language = this.props.language;
     const characterSounds = soundLoader.loadCharacterSoundsForLanguage(language);
-    const sound = characterSounds[char];
+    const sound = characterSounds[this._getCharacterId()];
     return (
       <ViroSound source={sound} onFinish={() => this.setState({playCharacterSound: false})}/>
     );
@@ -105,19 +106,37 @@ export default class HelloWorldSceneAR extends Component {
       ? <ViroSound source={require("./res/sounds/success.mp3")} />
       : <ViroSound source={require("./res/sounds/failure.mp3")} />;
 
+    const language = this.props.language;
+    var characterSet = characterLoader.loadCharacterSetForLanguage(language);
+
     return (
       <ViroARCamera>
-        <ViroText position={[0, 0, -6]} text={responseText} width={2} height={2} textAlign="center"
+        <ViroText position={[0, 1, -6]} text={responseText} width={2} height={2} textAlign="center"
           style={{fontFamily:"Arial", fontSize:35, fontWeight:'bold', color:"#FFFFFF"}}/>
         <ViroButton
             source={require("../img/replay.png")}
-            position={[0, 0, -10]}
+            position={[0, 1, -10]}
             height={1}
             width={1}
             onClick={() => this._drawAgain()}/>
+        <ViroText position={[0, -1, -6]} text={'or tap here to learn next character!'}  // TODO get next one
+          width={2} height={2} textAlign="center"
+          style={{fontFamily:"Arial", fontSize:35, fontWeight:'bold', color:"#FFFFFF"}}
+          onClick={() => this._drawNext() } />
         {sound}
       </ViroARCamera>
     );
+  }
+  
+  _drawNext() {
+    this.setState({
+      text : "Initializing AR...",
+      recognitionSucceeded: undefined,
+      showsRecognitionResponse: false,
+      currentStroke: 1,
+      playCharacterSound: false,
+      learnedChars: this.state.learnedChars + 1
+    });
   }
 
   _drawAgain() {
@@ -140,7 +159,6 @@ export default class HelloWorldSceneAR extends Component {
   }
 
   _getCharacterModel() {
-    const char = this.props.character;
     const language = this.props.language;
     const characterModels = modelLoader.loadCharacterModelsForLanguage(language);
     const currentStroke = this.state.currentStroke;
@@ -153,8 +171,8 @@ export default class HelloWorldSceneAR extends Component {
             width={1}
             onClick={() => this.setState({playCharacterSound: true})}/>
         <Viro3DObject
-          source={characterModels[char][currentStroke].obj}
-          resources={[characterModels[char][currentStroke].mtl]}
+          source={characterModels[this._getCharacterId()][currentStroke].obj}
+          resources={[characterModels[this._getCharacterId()][currentStroke].mtl]}
           type="OBJ"
           position={[0.0, 0.0, -10]}
           scale={[0.05, 0.05, 0.05]}
@@ -165,11 +183,14 @@ export default class HelloWorldSceneAR extends Component {
     );
   }
 
+  _getCharacterId() {
+    return this.props.characterIds[this.state.learnedChars % this.props.characterIds.length];
+  }
+
   _nextStroke() {
-    const char = this.props.character;
     const language = this.props.language;
     const characterModels = modelLoader.loadCharacterModelsForLanguage(language);
-    var maxStrokeCount = characterModels[char].numberOfStrokes;
+    var maxStrokeCount = characterModels[this._getCharacterId()].numberOfStrokes;
     var currentStroke = this.state.currentStroke;
     if (currentStroke == maxStrokeCount)
       this.setState({currentStroke: 1})
@@ -178,57 +199,56 @@ export default class HelloWorldSceneAR extends Component {
   }
 
   _getImageMarkers() {
-    const char = this.props.character;
     const language = this.props.language;
-    this._registerCharacterTagets(language, char);
+    this._registerCharacterTagets(language, this._getCharacterId());
     return (
-      <View>
-        <ViroARImageMarker target={"c1"} onAnchorFound={() => this._characerDetectionSuccess()}>
-        </ViroARImageMarker>
-        <ViroARImageMarker target={"c2"} onAnchorFound={() => this._characerDetectionSuccess()}>
-        </ViroARImageMarker>
-        <ViroARImageMarker target={"c3"} onAnchorFound={() => this._characerDetectionSuccess()}>
-        </ViroARImageMarker>
-        <ViroARImageMarker target={"c4"} onAnchorFound={() => this._characerDetectionSuccess()}>
-        </ViroARImageMarker>
+      //<View>
+      //  <ViroARImageMarker target={"c1"} onAnchorFound={() => this._characerDetectionSuccess()}>
+      //  </ViroARImageMarker>
+     //   <ViroARImageMarker target={"c2"} onAnchorFound={() => this._characerDetectionSuccess()}>
+      //  </ViroARImageMarker>
+      //  <ViroARImageMarker target={"c3"} onAnchorFound={() => this._characerDetectionSuccess()}>
+      //  </ViroARImageMarker>
+      //  <ViroARImageMarker target={"c4"} onAnchorFound={() => this._characerDetectionSuccess()}>
+      //  </ViroARImageMarker>
         <ViroARImageMarker target={"c5"} onAnchorFound={() => this._characerDetectionSuccess()}>
         </ViroARImageMarker>
-      </View>
+     // </View>
     )
   }
 
-  _registerCharacterTagets(language, char) {
+  _registerCharacterTagets(language, charId) {
     this._removeCharacterTagets();
     var allImages = imageLoader.loadCharacterTrackingImagesForLanguage(language);
-    var imagesForChar = allImages[char];
+    var imagesForChar = allImages[charId];
 
     ViroARTrackingTargets.createTargets({
       'c1' : {
-        source : imagesForChar[char + '1'],
+        source : imagesForChar[charId + '1'],
         orientation : "Up",
         physicalWidth : 0.015, // real world width in meters
         type: 'image'
       },
       'c2' : {
-        source : imagesForChar[char + '2'],
+        source : imagesForChar[charId + '2'],
         orientation : "Up",
         physicalWidth : 0.015, // real world width in meters
         type: 'image'
       },
       'c3' : {
-        source : imagesForChar[char + '3'],
+        source : imagesForChar[charId + '3'],
         orientation : "Up",
         physicalWidth : 0.015, // real world width in meters
         type: 'image'
       },
       'c4' : {
-        source : imagesForChar[char + '4'],
+        source : imagesForChar[charId + '4'],
         orientation : "Up",
         physicalWidth : 0.015, // real world width in meters
         type: 'image'
       },
       'c5' : {
-        source : imagesForChar[char + '5'],
+        source : imagesForChar[charId + '5'],
         orientation : "Up",
         physicalWidth : 0.015, // real world width in meters
         type: 'image'

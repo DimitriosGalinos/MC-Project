@@ -23,8 +23,8 @@ function loadKoreanCharacters() {
 function loadJapaneseCharacters() {
     return {
       a: 'あ',
-      ko: 'こ',
-      ri: 'り',
+      gu: 'こ',
+      ki: 'り',
       ma: 'ま'
     }
 }
