@@ -69,6 +69,7 @@ export default class ViroSample extends Component {
     this._getCharacterItem = this._getCharacterItem.bind(this);
     this._getSelector = this._getSelector.bind(this);
     this._getErrorText = this._getErrorText.bind(this);
+    this._getOrderedCharacterIds = this._getOrderedCharacterIds.bind(this);
   }
 
   // Replace this function with the contents of _getVRNavigator() or _getARNavigator()
