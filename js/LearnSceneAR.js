@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 
 import {
   ViroARScene,
@@ -28,7 +28,7 @@ import modelLoader from './services/modelLoader';
 import soundLoader from './services/soundLoader';
 import characterLoader from './services/characterLoader';
 
-export default class LearhSeneAR extends Component {
+export default class LearnSceneAR extends Component {
 
   constructor() {
     super();
@@ -58,6 +58,7 @@ export default class LearhSeneAR extends Component {
     this._drawAgain = this._drawAgain.bind(this);
     this._getCharacterSound = this._getCharacterSound.bind(this);
     this._onFinishedScan = this._onFinishedScan.bind(this);
+    this._getCharacterId = this._getCharacterId.bind(this);
   }
 
 // Viroplane visualizes planes and if you click them they disappear
@@ -129,7 +130,7 @@ export default class LearhSeneAR extends Component {
             height={1}
             width={1}
             onClick={() => this._drawAgain()}/>
-        <ViroText position={[0, -1, -6]} text={'learn next character!'} 
+        <ViroText position={[0, -1, -6]} text={'learn next character!'}
           width={2} height={2} textAlign="center"
           style={{fontFamily:"Arial", fontSize:35, fontWeight:'bold', color:"#FFFFFF"}}
           onClick={() => this._drawNext() } />
@@ -137,7 +138,7 @@ export default class LearhSeneAR extends Component {
       </ViroNode>
     );
   }
-  
+
   _drawNext() {
     this.setState({
       text : "Initializing AR...",
@@ -297,9 +298,4 @@ export default class LearhSeneAR extends Component {
 
 }
 
-// text styling
-var styles = StyleSheet.create({
-  
-});
-
-module.exports = LearhSeneAR;
+module.exports = LearnSceneAR;
