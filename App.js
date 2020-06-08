@@ -91,7 +91,7 @@ export default class ViroSample extends Component {
             <Image source={require('./img/logo.png')}
               style={styles.logoImage} />
           </View>
-          {this._getErrorText()}
+            {this._getErrorText()}
           <View style={{height:"100%", width: "100%"}}>
             {this._getSelector()}
           </View>
@@ -223,8 +223,7 @@ export default class ViroSample extends Component {
     return (
       <View style={styles.viroContainer}>
         <ViroARSceneNavigator {...this.state.sharedProps} initialScene={{scene: InitialARScene,
-              passProps: {language: this.state.language, characterIds: this._getOrderedCharacterIds(this.state.characterId),
-              nextButtonPresses: this.state.nextButtonPresses, exitButtonRef: this._exitViroButtonRef}}}
+              passProps: {language: this.state.language, characterIds: this._getOrderedCharacterIds(this.state.characterId)}}}
               numberOfTrackedImages={5} autofocus={true}/>
         <TouchableOpacity onPress={() => this._exitViro()} style={styles.menuButton}>
           <Image source={require("./img/logout.png")} style={{maxWidth: "100%", maxHeight: "100%"}}/>
